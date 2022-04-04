@@ -1,20 +1,26 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable prettier/prettier */
-
-import { Query, Resolver } from '@nestjs/graphql';
-import { blogpost } from 'src/entities/blogposts.entity';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { BlogEntity } from 'src/entities/blogposts.entity';
 import { BlogService } from './blog.service';
+import { BlogTag } from './blog.tag.enum';
 
-@Resolver(()=>blogpost)
+@Resolver(()=>BlogEntity)
 export class BlogResolver {
 
-    constructor(private blogService:BlogService){
+    constructor(private blogservice:BlogService){
 
     }
 
-    @Query(()=>blogpost)
-    getAll(){
-        this.blogService.getBlogs();
+    @Mutation(()=>BlogEntity)
+    createBlog( @Args('blogTitle') blogTitle: string, @Args('blogContent') blogContent: string, @Args('blogTags') blogTags: BlogTag, @Args('blogDate') blogDate: Date) {
+        console.log(blogTitle)
+        return this.blogservice.createBlog(blogTitle, blogContent, blogTags, blogDate);
+    }
+
+    @Query(()=>BlogEntity)
+    getBlogList() {
+        return this.blogservice.getBlogs();
     }
 
 }

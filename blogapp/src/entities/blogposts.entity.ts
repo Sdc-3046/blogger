@@ -3,12 +3,11 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "ty
 import { IsNotEmpty } from "class-validator";
 import { BlogCommentEntity } from "./blog.comment.entity";
 import { UserEntity } from "./user.entity";
-//import {BlogTag} from "../blogs/blog.tags.enum"
 import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 @Entity()
-export class blogpost{
+export class BlogEntity{
     @PrimaryGeneratedColumn()
     @Field()
     id: number;
@@ -40,9 +39,4 @@ export class blogpost{
     @Field()
     userId: number;
 
-    @ManyToOne(type => UserEntity, user => user.blogs, { eager: false })
-    user: UserEntity;
-
-    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { eager: false, onDelete: 'SET NULL' })
-    comments: BlogCommentEntity[];
 }

@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity, Unique } from 'typeorm';
-import { blogpost } from './blogposts.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { Field, ObjectType } from '@nestjs/graphql';
 
@@ -54,6 +53,5 @@ export class UserEntity extends BaseEntity {
     @Field()
     userGender: string;
 
-    @OneToMany(type => blogpost, blog => blog.user, { eager: true, onDelete: 'SET NULL' })
-    blogs: blogpost[];
+
 }
