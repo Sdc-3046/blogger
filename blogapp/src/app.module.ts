@@ -22,7 +22,7 @@ import { UserEntity } from './entities/user.entity';
       password: 'sdc1234',
       database: 'blogs',
       entities: [BlogEntity,UserEntity,BlogCommentEntity],
-      synchronize: false,
+      synchronize: true,
     }),
     
     GraphQLModule.forRoot<ApolloDriverConfig>({

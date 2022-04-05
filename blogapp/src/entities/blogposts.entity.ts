@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import { IsNotEmpty } from "class-validator";
-import { BlogCommentEntity } from "./blog.comment.entity";
-import { UserEntity } from "./user.entity";
 import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
@@ -14,12 +12,12 @@ export class BlogEntity{
 
     @Column()
     @IsNotEmpty()
-    @Field()
+    @Field({nullable:true})
     blogTitle: string;
 
     @IsNotEmpty()
     @Column()
-    @Field()
+    @Field({nullable:true})
     blogContent: string;
 
     @Column()
@@ -28,13 +26,13 @@ export class BlogEntity{
 
     @Column()
     @Field()
-    blogDate: Date;
+    blogDate: string;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     blogRating: number;
+    
 
-    @IsNotEmpty()
     @Column()
     @Field()
     userId: number;
