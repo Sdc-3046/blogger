@@ -20,8 +20,4 @@ export class BlogTemplateDto{
 
     @Field({nullable:true})
     blogRating: number;
-    
-    @Field()
-    userId: number;
-
 }

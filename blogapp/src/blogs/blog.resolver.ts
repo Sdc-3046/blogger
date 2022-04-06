@@ -3,6 +3,8 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BlogTemplateDto } from 'src/dto/blog.template.dto';
 import { BlogEntity } from 'src/entities/blogposts.entity';
+import { UserEntity } from 'src/entities/user.entity';
+import { GetUser } from 'src/users/get.user.decorator';
 import { BlogService } from './blog.service';
 import { BlogTag } from './blog.tag.enum';
 
@@ -14,9 +16,9 @@ export class BlogResolver {
     }
 
     @Mutation(()=>BlogEntity,{name:'newBlog'})
-    createBlog(@Args('blog') blogTemplateDto:BlogTemplateDto) {
+    createBlog(@GetUser() user: UserEntity,@Args('blog') blogTemplateDto:BlogTemplateDto) {
         console.log("creating blog");
-        return this.blogservice.createBlog(blogTemplateDto);
+        return this.blogservice.createBlog(user,blogTemplateDto);
     }
 
     @Query(()=>[BlogEntity])

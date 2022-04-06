@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique, OneToMany } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { BlogEntity } from './blogposts.entity';
 
 @Entity('bloggers')
 @Unique(['userEmail'])
@@ -27,31 +28,32 @@ export class UserEntity extends BaseEntity {
     @Field()
     userPassword: string;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userCity: string;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userState: string;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userCountry: string;
 
-    @Column()
+    @Column({default:null})
     @MinLength(6)
     @MaxLength(6)
-    @Field()
+    @Field({nullable:true})
     userPostalCode: number;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userBirthDate: Date;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userGender: string;
 
-
+    @OneToMany(type => BlogEntity, blog => blog.user, { eager: true, onDelete: 'SET NULL' })
+    blogs: BlogEntity[];
 }

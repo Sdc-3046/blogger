@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { BlogTemplateDto } from 'src/dto/blog.template.dto';
+import { UserEntity } from 'src/entities/user.entity';
 import { BlogRepository } from './blog.repository';
 import { BlogTag } from './blog.tag.enum';
 
@@ -15,8 +16,8 @@ export class BlogService {
         return this.blogRepository.getBlogList();
     }
 
-    createBlog(blogTemplateDto:BlogTemplateDto ) {
-        return this.blogRepository.createBlog(blogTemplateDto);
+    createBlog(user:UserEntity, blogTemplateDto:BlogTemplateDto ) {
+        return this.blogRepository.createBlog(user,blogTemplateDto);
     }
 
     async getBlogById(id:number){

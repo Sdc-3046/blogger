@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Field, ObjectType } from "@nestjs/graphql";
+import { BlogCommentEntity } from "./blog.comment.entity";
+import { UserEntity } from "./user.entity";
 
 @ObjectType()
 @Entity()
@@ -20,15 +22,15 @@ export class BlogEntity{
     @Field({nullable:true})
     blogContent: string;
 
-    @Column()
+    @Column({default:null})
     @Field()
     blogTags: string;
 
-    @Column()
+    @Column({default:new Date().toISOString().slice(0,10)})
     @Field()
     blogDate: string;
 
-    @Column()
+    @Column({default:null})
     @Field({nullable:true})
     blogRating: number;
     
@@ -36,5 +38,11 @@ export class BlogEntity{
     @Column()
     @Field()
     userId: number;
+
+    @ManyToOne(type => UserEntity, user => user.blogs, { eager: false })
+    user: UserEntity;
+
+    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { eager: false, onDelete: 'SET NULL' })
+    comments: BlogCommentEntity[];
 
 }

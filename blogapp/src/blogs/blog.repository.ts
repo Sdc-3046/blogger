@@ -2,15 +2,15 @@
 import { NotFoundException } from "@nestjs/common";
 import { BlogTemplateDto } from "src/dto/blog.template.dto";
 import { BlogEntity } from "src/entities/blogposts.entity";
+import { UserEntity } from "src/entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
-import { BlogTag } from "./blog.tag.enum";
 
 @EntityRepository(BlogEntity)
 export class BlogRepository extends Repository<BlogEntity>{
 
-    async createBlog(blogTemplateDto:BlogTemplateDto) {
+    async createBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto) {
 
-        const {blogTitle,blogContent,blogTags,blogDate,blogRating,userId}=blogTemplateDto
+        const {blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto
         
         if (blogTitle.length === 0 && blogContent.length === 0) {
             return 'Blog title and Blog content cannot be empty';
@@ -21,7 +21,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         blog.blogContent = blogContent;
         blog.blogDate=blogDate;
         blog.blogRating=blogRating;
-        blog.userId=userId;
+        blog.userId=user.id;
         blog.blogTags = blogTags;
         await this.save(blog);
         return blog;
@@ -65,7 +65,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         const targetblog=await this.findOne(id);
         if(targetblog)
         {
-            const {blogTitle,blogContent,blogTags,blogDate,blogRating,userId}=blogTemplateDto;
+            const {blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
         
             if (blogTitle.length === 0 && blogContent.length === 0) {
                 return 'Blog title and Blog content cannot be empty';
@@ -75,9 +75,9 @@ export class BlogRepository extends Repository<BlogEntity>{
             targetblog.blogContent = blogContent;
             targetblog.blogDate=blogDate;
             targetblog.blogRating=blogRating;
-            targetblog.userId=userId;
             targetblog.blogTags = blogTags;
             await this.save(targetblog);
+            return targetblog;
         }
         else{
             return new NotFoundException();
