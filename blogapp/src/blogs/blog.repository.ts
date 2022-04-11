@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { NotFoundException } from "@nestjs/common";
+import { BadRequestException, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { isString } from "class-validator";
 import { BlogTemplateDto } from "src/dto/blog.template.dto";
 import { BlogEntity } from "src/entities/blogposts.entity";
 import { UserEntity } from "src/entities/user.entity";
@@ -49,8 +50,12 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async deleteBlogById(id:number){
+    async deleteBlogById(id:number,user:UserEntity){
         const targetblog=await this.findOne(id);
+        if(targetblog.userId!==user.id)
+        {
+            return new UnauthorizedException();
+        }
         if(targetblog){
             await this.delete(targetblog);
             return targetblog;
@@ -60,9 +65,13 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async updateBlogById(id:number,blogTemplateDto:BlogTemplateDto)
+    async updateBlogById(id:number,blogTemplateDto:BlogTemplateDto,user:UserEntity)
     {
         const targetblog=await this.findOne(id);
+        if(targetblog.userId!==user.id)
+        {
+            return new UnauthorizedException();
+        }
         if(targetblog)
         {
             const {blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
@@ -82,5 +91,27 @@ export class BlogRepository extends Repository<BlogEntity>{
         else{
             return new NotFoundException();
         }
+    }
+
+    async createOrupdateBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto){
+
+        const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
+        if(id===undefined || id===null){
+            return this.createBlog(user,blogTemplateDto);
+        }
+
+        try{
+            const targetblog=await this.findOneOrFail(id)
+        
+            if(targetblog)
+            {
+                return this.updateBlogById(id,blogTemplateDto,user);
+            }
+        }
+        catch{
+            return new BadRequestException();
+        }
+        
+
     }
 }

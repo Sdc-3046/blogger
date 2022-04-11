@@ -7,6 +7,9 @@ import { Column } from "typeorm";
 export class BlogTemplateDto{
 
     @Field({nullable:true})
+    id:number;
+
+    @Field({nullable:true})
     blogTitle: string;
 
     @Field({nullable:true})

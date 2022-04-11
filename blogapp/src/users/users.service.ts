@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from 'src/dto/auth.credentials.dto';
 import { ProfileDto } from 'src/dto/profile.dto';
+import { UserEntity } from 'src/entities/user.entity';
 import { JwtPayload } from './jwt.payload';
 import { UserRepository } from './user.repository';
 
@@ -27,16 +28,17 @@ export class UsersService {
         };
         console.log("Signed in")
         const token = this.jwtService.sign(payload)
+        
         console.log(token)
-        return user;
+        return {token,user};
     }
 
-    getUserProfile(userEmail: string) {
-        return this.userRepository.getUserProfile(userEmail)
+    getUserProfile(userEmail: string,user:UserEntity) {
+        return this.userRepository.getUserProfile(userEmail,user)
     }
 
-    updateProfile(profileDto: ProfileDto) {
-        return this.userRepository.updateProfile(profileDto);
+    updateProfile(profileDto: ProfileDto,user:UserEntity) {
+        return this.userRepository.updateProfile(profileDto,user);
     }
 
 }

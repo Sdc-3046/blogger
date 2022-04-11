@@ -31,10 +31,15 @@ type BlogEntity {
   userId: Float!
 }
 
+type SignInResponse {
+  token: String!
+  user: UserEntity!
+}
+
 type Query {
   getBlogList: [BlogEntity!]!
   getBlogById(id: Int!): BlogEntity!
-  signIn(user: AuthCredentialsDto!): UserEntity!
+  signIn(user: AuthCredentialsDto!): SignInResponse!
   getUserProfile(userEmail: String!): UserEntity!
 }
 
@@ -49,11 +54,13 @@ type Mutation {
   newBlog(blog: BlogTemplateDto!): BlogEntity!
   deleteBlog(id: Float!): BlogEntity!
   updateBlog(id: Float!, updatedBlog: BlogTemplateDto!): BlogEntity!
+  createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
   signUp(user: AuthCredentialsDto!): UserEntity!
   updateProfile(userProfile: ProfileDto!): UserEntity!
 }
 
 input BlogTemplateDto {
+  id: Float
   blogTitle: String
   blogContent: String
   blogTags: String

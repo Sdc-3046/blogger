@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { NotFoundException } from "@nestjs/common";
+import { NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { use } from "passport";
 import { AuthCredentialsDto } from "src/dto/auth.credentials.dto";
 import { ProfileDto } from "src/dto/profile.dto";
 import { UserEntity } from "src/entities/user.entity";
@@ -17,7 +18,8 @@ export class UserRepository extends Repository<UserEntity>{
         user.userPassword = authCredentialsdto.userPassword;
 
         await user.save();
-        return user;
+        const {userPassword, ...result} = user
+        return result;
     }
 
     async signin(authCredentialsDto: AuthCredentialsDto) {
@@ -28,35 +30,42 @@ export class UserRepository extends Repository<UserEntity>{
         
         if (user) {
             if (user.userPassword === authCredentialsDto.userPassword) {
-                return user;
+                const {userPassword, ...result} = user
+                return result;
             }
         }
         throw new NotFoundException('User not found');
     }
 
-    async getUserProfile(userEmail: string) {
-
-        /* const query = this.createQueryBuilder('users')
-
-        query.andWhere('users.userEmail=:userEmail', { userEmail: userEmail }) */
-
-        //const targetuser = await query.getOne()
+    async getUserProfile(userEmail: string,user:UserEntity) {
+        
         const targetuser=await this.findOne({userEmail})
+        
+        if(targetuser.id!==user.id)
+        {
+            return new UnauthorizedException()
+        }
 
         if (targetuser) {
-            return targetuser;
+            const {userPassword, ...result} = targetuser
+            return result;
         }
         else {
             throw new NotFoundException;
         }
     }
 
-    async updateProfile(profileDto: ProfileDto) {
+    async updateProfile(profileDto: ProfileDto, user:UserEntity) {
         const { firstName, lastName, userEmail, userPassword, userCity, userState, userCountry, userPostalCode, userBirthDate, userGender } = profileDto;
 
-        const user = await this.findOne({ userEmail });
+        const targetuser = await this.findOne({ userEmail });
 
-        if (user) {
+        if(targetuser.id!==user.id)
+        {
+            return new UnauthorizedException();
+        }
+
+        if (targetuser) {
             if (firstName) {
                 user.firstName = firstName;
             }
@@ -65,9 +74,6 @@ export class UserRepository extends Repository<UserEntity>{
             }
             if (userEmail) {
                 user.userEmail = userEmail;
-            }
-            if (userPassword) {
-                user.userPassword = userPassword;
             }
             if (userCity) {
                 user.userCity = userCity;
@@ -88,7 +94,8 @@ export class UserRepository extends Repository<UserEntity>{
                 user.userGender = userGender;
             }
             user.save()
-            return user;
+            const {userPassword, ...result} = user
+            return result;
         }
         else {
             throw new NotFoundException('User not found')

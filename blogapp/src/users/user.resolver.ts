@@ -4,10 +4,14 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthCredentialsDto } from 'src/dto/auth.credentials.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { UsersService } from './users.service';
-import { Body, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProfileDto } from 'src/dto/profile.dto';
+import { SignInResponse } from './signin.response';
+import { GetUser } from './get.user.decorator';
+import { GQLAuthGuard } from './gql.authguard';
 
 @Resolver()
+
 export class UserResolver {
 
     constructor(private userService:UsersService) {
@@ -20,7 +24,7 @@ export class UserResolver {
     }
 
 
-    @Query(()=>UserEntity)
+    @Query(()=>SignInResponse)
     @UsePipes(ValidationPipe)
     signIn(@Args('user') authCredentialsDto: AuthCredentialsDto) {
         console.log(authCredentialsDto.userEmail)
@@ -28,12 +32,15 @@ export class UserResolver {
     }
 
     @Mutation(()=>UserEntity)
-    updateProfile(@Args('userProfile') profileDto: ProfileDto) {
-        return this.userService.updateProfile(profileDto);
+    @UseGuards(GQLAuthGuard)
+    updateProfile(@GetUser()user:UserEntity,@Args('userProfile') profileDto: ProfileDto) {
+        return this.userService.updateProfile(profileDto,user);
     }
 
     @Query(()=>UserEntity)
-    getUserProfile(@Args('userEmail') userEmail: string) {
-        return this.userService.getUserProfile(userEmail)
+    @UseGuards(GQLAuthGuard)
+    getUserProfile(@GetUser()user:UserEntity,@Args('userEmail') userEmail: string) {
+        console.log(user.firstName)
+        return this.userService.getUserProfile(userEmail,user)
     }
 }
