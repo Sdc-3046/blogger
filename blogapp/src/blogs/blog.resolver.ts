@@ -8,7 +8,7 @@ import { BlogService } from './blog.service';
 import { GetUser } from 'src/users/get.user.decorator';
 import { UserEntity } from 'src/entities/user.entity';
 import { GQLAuthGuard } from 'src/users/gql.authguard';
-import { userInfo } from 'os';
+import { BlogCommentEntity } from 'src/entities/blog.comment.entity';
 
 @Resolver(()=>BlogEntity)
 @UseGuards(GQLAuthGuard)
@@ -20,7 +20,6 @@ export class BlogResolver {
 
     @Mutation(()=>BlogEntity,{name:'newBlog'})
     createBlog(@GetUser()user:UserEntity,@Args('blog') blogTemplateDto:BlogTemplateDto) {
-        console.log("creating blog");
         return this.blogservice.createBlog(user,blogTemplateDto);
     }
 
@@ -37,7 +36,6 @@ export class BlogResolver {
     @Mutation(()=>BlogEntity, {name:'deleteBlog'})
     deleteBlog(@GetUser()user:UserEntity,@Args('id') id:number)
     {
-        console.log(id);
         return this.blogservice.deleteBlogById(id,user);
     }
 
@@ -50,6 +48,21 @@ export class BlogResolver {
     @Mutation(()=>BlogEntity,{nullable:true,name:'createOrupdateBlog'})
     createOrupdate(@GetUser()user:UserEntity,@Args('createOrupdateBlog')blogTemplateDto:BlogTemplateDto){
         return this.blogservice.createOrupdateBlog(user,blogTemplateDto);
+    }
+
+    @Mutation(()=>BlogCommentEntity,{nullable:true, name:'addBlogComment'})
+    addComment(@Args('id') id: number, @Args('userComment') userComment: string, @GetUser() user: UserEntity) {
+        return this.blogservice.addComment(id, userComment, user);
+    }
+
+    @Mutation(()=>String ,{nullable:true, name:'deleteBlogComment'})
+    deleteComments(@Args('id') id: number) {
+        return this.blogservice.deleteComments(id);
+    }
+    
+    @Query(()=>[BlogCommentEntity],{nullable:true,name:'getBlogComments'})
+    getComments(@Args('id') id: number) {
+        return this.blogservice.getComments(id);
     }
 
 }

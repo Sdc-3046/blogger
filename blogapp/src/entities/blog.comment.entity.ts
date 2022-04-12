@@ -12,11 +12,11 @@ export class BlogCommentEntity extends BaseEntity {
     id: number;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     userName: string;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     userComment: string;
 
     @Column()

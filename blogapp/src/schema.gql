@@ -31,6 +31,13 @@ type BlogEntity {
   userId: Float!
 }
 
+type BlogCommentEntity {
+  id: Float!
+  userName: String
+  userComment: String
+  blogId: Float!
+}
+
 type SignInResponse {
   token: String!
   user: UserEntity!
@@ -39,6 +46,7 @@ type SignInResponse {
 type Query {
   getBlogList: [BlogEntity!]!
   getBlogById(id: Int!): BlogEntity!
+  getBlogComments(id: Float!): [BlogCommentEntity!]
   signIn(user: AuthCredentialsDto!): SignInResponse!
   getUserProfile(userEmail: String!): UserEntity!
 }
@@ -55,6 +63,8 @@ type Mutation {
   deleteBlog(id: Float!): BlogEntity!
   updateBlog(id: Float!, updatedBlog: BlogTemplateDto!): BlogEntity!
   createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
+  addBlogComment(id: Float!, userComment: String!): BlogCommentEntity
+  deleteBlogComment(id: Float!): String
   signUp(user: AuthCredentialsDto!): UserEntity!
   updateProfile(userProfile: ProfileDto!): UserEntity!
 }

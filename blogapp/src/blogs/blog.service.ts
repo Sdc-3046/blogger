@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { BlogTemplateDto } from 'src/dto/blog.template.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { BlogRepository } from './blog.repository';
 import { BlogTag } from './blog.tag.enum';
+import { BlogCommentRepository } from './blogs.comments.repository';
 
 @Injectable()
 export class BlogService {
 
-    constructor(private blogRepository:BlogRepository) {}
-    
+    constructor(private blogRepository:BlogRepository, @InjectRepository(BlogCommentRepository) private blogCommentRepository: BlogCommentRepository) {}
 
     async getBlogs(){
         
@@ -35,5 +36,17 @@ export class BlogService {
 
     async createOrupdateBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto){
         return this.blogRepository.createOrupdateBlog(user,blogTemplateDto);
+    }
+
+    async addComment(id: number, userComment: string, user: UserEntity) {
+        return this.blogCommentRepository.addComment(id, userComment, user);
+    }
+
+    async getComments(id: number) {
+        return this.blogCommentRepository.getComments(id);
+    }
+
+    async deleteComments(id: number) {
+        return this.blogCommentRepository.deleteComment(id)
     }
 }

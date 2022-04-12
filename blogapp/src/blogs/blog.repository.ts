@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { BadRequestException, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { isString } from "class-validator";
 import { BlogTemplateDto } from "src/dto/blog.template.dto";
 import { BlogEntity } from "src/entities/blogposts.entity";
 import { UserEntity } from "src/entities/user.entity";
@@ -30,8 +29,11 @@ export class BlogRepository extends Repository<BlogEntity>{
 
     async getBlogList() {
         console.log("getblog executed")
-        const bloglist = await this.find()
-        console.log(bloglist)
+        // eslint-disable-next-line prefer-const
+        let bloglist = await this.find()
+        
+        bloglist = bloglist.filter(blog => blog.blogRating >3)
+
         if (bloglist) {
             return bloglist;
         }

@@ -12,7 +12,7 @@ export class AuthCredentialsDto {
     lastName: string;
 
     @IsNotEmpty()
-    @MinLength(5)
+    @MinLength(8)
     @MaxLength(25)
     @Field()
     userEmail: string;
