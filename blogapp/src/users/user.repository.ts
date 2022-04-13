@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { use } from "passport";
 import { AuthCredentialsDto } from "src/dto/auth.credentials.dto";
 import { ProfileDto } from "src/dto/profile.dto";
 import { UserEntity } from "src/entities/user.entity";

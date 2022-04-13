@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlogTemplateDto } from 'src/dto/blog.template.dto';
 import { UserEntity } from 'src/entities/user.entity';
+import { BlogFilter } from './blog.filter';
 import { BlogRepository } from './blog.repository';
-import { BlogTag } from './blog.tag.enum';
 import { BlogCommentRepository } from './blogs.comments.repository';
 
 @Injectable()
@@ -12,9 +12,8 @@ export class BlogService {
 
     constructor(private blogRepository:BlogRepository, @InjectRepository(BlogCommentRepository) private blogCommentRepository: BlogCommentRepository) {}
 
-    async getBlogs(){
-        
-        return this.blogRepository.getBlogList();
+    async getBlogs(args:BlogFilter){
+        return this.blogRepository.getBlogList(args);
     }
 
     createBlog(user:UserEntity, blogTemplateDto:BlogTemplateDto ) {

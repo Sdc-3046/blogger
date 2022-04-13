@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Field, InputType } from "@nestjs/graphql";
-import { IsNotEmpty } from "class-validator";
-import { Column } from "typeorm";
+import { BlogTag } from "src/blogs/blog.tag.enum";
 
 @InputType()
 export class BlogTemplateDto{
@@ -16,7 +15,7 @@ export class BlogTemplateDto{
     blogContent: string;
 
     @Field({nullable:true})
-    blogTags: string;
+    blogTags: BlogTag;
 
     @Field({nullable:true})
     blogDate: string;

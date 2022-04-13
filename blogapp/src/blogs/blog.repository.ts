@@ -4,6 +4,7 @@ import { BlogTemplateDto } from "src/dto/blog.template.dto";
 import { BlogEntity } from "src/entities/blogposts.entity";
 import { UserEntity } from "src/entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
+import { BlogFilter } from "./blog.filter";
 
 @EntityRepository(BlogEntity)
 export class BlogRepository extends Repository<BlogEntity>{
@@ -27,12 +28,12 @@ export class BlogRepository extends Repository<BlogEntity>{
         return blog;
     }
 
-    async getBlogList() {
+    async getBlogList(args:BlogFilter) {
         console.log("getblog executed")
         // eslint-disable-next-line prefer-const
-        let bloglist = await this.find()
-        
-        bloglist = bloglist.filter(blog => blog.blogRating >3)
+        const query=this.createQueryBuilder('blog')
+        query.andWhere('blog.blogRating=:rating',{rating:args.filter.blogRating});
+        const bloglist=query.getMany();
 
         if (bloglist) {
             return bloglist;

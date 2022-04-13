@@ -44,11 +44,19 @@ type SignInResponse {
 }
 
 type Query {
-  getBlogList: [BlogEntity!]!
+  getBlogList(blogRating: BlogFilter!): [BlogEntity!]!
   getBlogById(id: Int!): BlogEntity!
   getBlogComments(id: Float!): [BlogCommentEntity!]
   signIn(user: AuthCredentialsDto!): SignInResponse!
   getUserProfile(userEmail: String!): UserEntity!
+}
+
+input BlogFilter {
+  filter: BlogType!
+}
+
+input BlogType {
+  blogRating: Float!
 }
 
 input AuthCredentialsDto {

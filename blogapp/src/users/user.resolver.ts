@@ -4,14 +4,13 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthCredentialsDto } from 'src/dto/auth.credentials.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { UsersService } from './users.service';
-import { Body, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProfileDto } from 'src/dto/profile.dto';
 import { SignInResponse } from './signin.response';
 import { GetUser } from './get.user.decorator';
 import { GQLAuthGuard } from './gql.authguard';
 
 @Resolver()
-
 export class UserResolver {
 
     constructor(private userService:UsersService) {
@@ -27,7 +26,6 @@ export class UserResolver {
     @Query(()=>SignInResponse)
     @UsePipes(ValidationPipe)
     signIn(@Args('user') authCredentialsDto: AuthCredentialsDto) {
-        console.log(authCredentialsDto.userEmail)
         return this.userService.signin(authCredentialsDto);
     }
 
@@ -40,7 +38,6 @@ export class UserResolver {
     @Query(()=>UserEntity)
     @UseGuards(GQLAuthGuard)
     getUserProfile(@GetUser()user:UserEntity,@Args('userEmail') userEmail: string) {
-        console.log(user.firstName)
         return this.userService.getUserProfile(userEmail,user)
     }
 }

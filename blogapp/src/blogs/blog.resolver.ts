@@ -9,6 +9,7 @@ import { GetUser } from 'src/users/get.user.decorator';
 import { UserEntity } from 'src/entities/user.entity';
 import { GQLAuthGuard } from 'src/users/gql.authguard';
 import { BlogCommentEntity } from 'src/entities/blog.comment.entity';
+import { BlogFilter } from './blog.filter';
 
 @Resolver(()=>BlogEntity)
 @UseGuards(GQLAuthGuard)
@@ -24,12 +25,12 @@ export class BlogResolver {
     }
 
     @Query(()=>[BlogEntity])
-    getBlogList() {
-        return this.blogservice.getBlogs();
+    getBlogList(@Args('blogRating')args:BlogFilter) {
+        return this.blogservice.getBlogs(args);
     }
 
     @Query(()=>BlogEntity)
-    getBlogById(@Args('id', {type: ()=> Int})id:number){
+    getBlogById(@Args('id', {type: ()=> Int})id:number,){
         return this.blogservice.getBlogById(id);
     }
 
