@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Field, InputType } from "@nestjs/graphql";
 import { BlogTag } from "src/blogs/blog.tag.enum";
 

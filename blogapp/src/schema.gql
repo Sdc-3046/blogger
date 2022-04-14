@@ -7,7 +7,7 @@ type UserEntity {
   firstName: String!
   lastName: String!
   userEmail: String!
-  userPassword: String!
+  userPassword: String
   userCity: String
   userState: String
   userCountry: String
@@ -69,7 +69,7 @@ input AuthCredentialsDto {
 type Mutation {
   newBlog(blog: BlogTemplateDto!): BlogEntity!
   deleteBlog(id: Float!): BlogEntity!
-  updateBlog(id: Float!, updatedBlog: BlogTemplateDto!): BlogEntity!
+  updateBlog(updatedBlog: BlogTemplateDto!): BlogEntity!
   createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
   addBlogComment(id: Float!, userComment: String!): BlogCommentEntity
   deleteBlogComment(id: Float!): String

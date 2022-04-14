@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Field, ObjectType } from "@nestjs/graphql";

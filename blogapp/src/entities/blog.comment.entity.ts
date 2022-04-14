@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Field, ObjectType } from "@nestjs/graphql";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BlogEntity } from "./blogposts.entity";

@@ -1,6 +1,5 @@
-/* eslint-disable prettier/prettier */
 import { BadRequestException, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { BlogTemplateDto } from "src/dto/blog.template.dto";
+import { BlogTemplateDto } from "src/blogs/dto/blog.template.dto";
 import { BlogEntity } from "src/entities/blogposts.entity";
 import { UserEntity } from "src/entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
@@ -24,13 +23,12 @@ export class BlogRepository extends Repository<BlogEntity>{
         blog.blogRating=blogRating;
         blog.userId=user.id;
         blog.blogTags = blogTags;
-        await this.save(blog);
-        return blog;
+        const result=await this.save(blog);
+        return result;
     }
 
     async getBlogList(args:BlogFilter) {
         
-        // eslint-disable-next-line prefer-const
         if(args.filter.rating===null || args.filter.rating===undefined)
         {
             const bloglist=await this.find()
@@ -58,7 +56,11 @@ export class BlogRepository extends Repository<BlogEntity>{
     }
 
     async getBlogById(id:number){
-        const targetblog=await this.findOne(id);
+        const query=this.createQueryBuilder('blogs');
+        query.andWhere('blogs.id=:id',{id:id});
+
+        const targetblog=await query.getOneOrFail();
+
         if(targetblog){
             return targetblog;
         }
@@ -68,7 +70,11 @@ export class BlogRepository extends Repository<BlogEntity>{
     }
 
     async deleteBlogById(id:number,user:UserEntity){
-        const targetblog=await this.findOne(id);
+
+        const query=this.createQueryBuilder('blogs');
+        query.andWhere('blogs.id=:id',{id:id});
+
+        const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
         {
             return new UnauthorizedException();
@@ -78,21 +84,24 @@ export class BlogRepository extends Repository<BlogEntity>{
             return targetblog;
         }
         else{
-            return new NotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    async updateBlogById(id:number,blogTemplateDto:BlogTemplateDto,user:UserEntity)
+    async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
     {
-        const targetblog=await this.findOne(id);
+        const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
+        
+        const query=this.createQueryBuilder('blogs');
+        query.andWhere('blogs.id=:id',{id:id});
+        
+        const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
         {
-            return new UnauthorizedException();
+            throw new UnauthorizedException();
         }
         if(targetblog)
-        {
-            const {blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
-        
+        {        
             if (blogTitle.length === 0 && blogContent.length === 0) {
                 return 'Blog title and Blog content cannot be empty';
             }
@@ -102,11 +111,11 @@ export class BlogRepository extends Repository<BlogEntity>{
             targetblog.blogDate=blogDate;
             targetblog.blogRating=blogRating;
             targetblog.blogTags = blogTags;
-            await this.save(targetblog);
-            return targetblog;
+            const updatedBlog=await this.save(targetblog);
+            return updatedBlog;
         }
         else{
-            return new NotFoundException();
+            throw new NotFoundException();
         }
     }
 
@@ -118,15 +127,18 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
 
         try{
-            const targetblog=await this.findOneOrFail(id)
-        
+            const query=this.createQueryBuilder('blogs');
+            query.andWhere('blogs.id=:id',{id:id});
+
+            const targetblog=await query.getOneOrFail();
+            
             if(targetblog)
             {
-                return this.updateBlogById(id,blogTemplateDto,user);
+                return this.updateBlogById(blogTemplateDto,user);
             }
         }
         catch{
-            return new BadRequestException();
+            throw new BadRequestException();
         }
         
 

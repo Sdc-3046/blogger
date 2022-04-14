@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogRepository } from './blog.repository';
@@ -13,3 +12,4 @@ import { BlogCommentRepository } from './blogs.comments.repository';
 })
 
 export class BlogsModule {}
+    

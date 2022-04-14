@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BlogTemplateDto } from 'src/dto/blog.template.dto';
+import { BlogTemplateDto } from 'src/blogs/dto/blog.template.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { BlogFilter } from './blog.filter';
 import { BlogRepository } from './blog.repository';
@@ -28,9 +27,9 @@ export class BlogService {
         return this.blogRepository.deleteBlogById(id,user);
     }
 
-    async updateBlogById(id:number,blogTemplateDto:BlogTemplateDto,user:UserEntity)
+    async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
     {
-        return this.blogRepository.updateBlogById(id,blogTemplateDto,user)
+        return this.blogRepository.updateBlogById(blogTemplateDto,user)
     }
 
     async createOrupdateBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto){

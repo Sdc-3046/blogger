@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport"
 import { InjectRepository } from "@nestjs/typeorm";

@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable prettier/prettier */
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { BlogTemplateDto } from 'src/dto/blog.template.dto';
+import { BlogTemplateDto } from 'src/blogs/dto/blog.template.dto';
 import { BlogEntity } from 'src/entities/blogposts.entity';
 import { BlogService } from './blog.service';
 import { GetUser } from 'src/users/get.user.decorator';
@@ -41,8 +39,8 @@ export class BlogResolver {
     }
 
     @Mutation(()=>BlogEntity, {name:'updateBlog'})
-    updateBlog(@GetUser('user')user:UserEntity,@Args('id') id:number,@Args('updatedBlog') blogTemplateDto:BlogTemplateDto){
-        return this.blogservice.updateBlogById(id,blogTemplateDto,user)
+    updateBlog(@GetUser('user')user:UserEntity,@Args('updatedBlog') blogTemplateDto:BlogTemplateDto){
+        return this.blogservice.updateBlogById(blogTemplateDto,user)
     }
 
 

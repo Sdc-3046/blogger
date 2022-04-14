@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique, OneToMany } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { Field, ObjectType } from '@nestjs/graphql';
@@ -25,7 +24,7 @@ export class UserEntity extends BaseEntity {
     userEmail: string;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     userPassword: string;
 
     @Column({default:null})

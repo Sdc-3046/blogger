@@ -1,9 +1,8 @@
-/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthCredentialsDto } from 'src/dto/auth.credentials.dto';
-import { ProfileDto } from 'src/dto/profile.dto';
+import { AuthCredentialsDto } from 'src/users/dto/auth.credentials.dto';
+import { ProfileDto } from 'src/users/dto/profile.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { JwtPayload } from './jwt.payload';
 import { UserRepository } from './user.repository';

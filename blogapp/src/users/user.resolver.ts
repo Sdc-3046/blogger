@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable prettier/prettier */
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthCredentialsDto } from 'src/dto/auth.credentials.dto';
+import { AuthCredentialsDto } from 'src/users/dto/auth.credentials.dto';
 import { UserEntity } from 'src/entities/user.entity';
 import { UsersService } from './users.service';
 import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ProfileDto } from 'src/dto/profile.dto';
+import { ProfileDto } from 'src/users/dto/profile.dto';
 import { SignInResponse } from './signin.response';
 import { GetUser } from './get.user.decorator';
 import { GQLAuthGuard } from './gql.authguard';

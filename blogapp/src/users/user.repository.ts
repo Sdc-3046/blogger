@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
 import { NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { AuthCredentialsDto } from "src/dto/auth.credentials.dto";
-import { ProfileDto } from "src/dto/profile.dto";
+import { AuthCredentialsDto } from "src/users/dto/auth.credentials.dto";
+import { ProfileDto } from "src/users/dto/profile.dto";
 import { UserEntity } from "src/entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 
@@ -16,8 +15,8 @@ export class UserRepository extends Repository<UserEntity>{
         user.userEmail = authCredentialsdto.userEmail;
         user.userPassword = authCredentialsdto.userPassword;
 
-        await user.save();
-        const {userPassword, ...result} = user
+        const newUser=await user.save();
+        const {userPassword, ...result} = newUser
         return result;
     }
 
@@ -25,11 +24,14 @@ export class UserRepository extends Repository<UserEntity>{
 
         const { firstName, lastName, userEmail, userPassword } = authCredentialsDto;
 
-        const user=await this.findOne({userEmail})
+        const query=this.createQueryBuilder('users');
+        query.andWhere('users.userEmail=:email',{email:userEmail});
+
+        const targetuser=await query.getOneOrFail();
         
-        if (user) {
-            if (user.userPassword === authCredentialsDto.userPassword) {
-                const {userPassword, ...result} = user
+        if (targetuser) {
+            if (targetuser.userPassword === authCredentialsDto.userPassword) {
+                const {userPassword, ...result} = targetuser
                 return result;
             }
         }
@@ -38,7 +40,10 @@ export class UserRepository extends Repository<UserEntity>{
 
     async getUserProfile(userEmail: string,user:UserEntity) {
         
-        const targetuser=await this.findOne({userEmail})
+        const query=this.createQueryBuilder('users');
+        query.andWhere('users.userEmail=:email',{email:userEmail});
+
+        const targetuser=await query.getOneOrFail();
         
         if(targetuser.id!==user.id)
         {
@@ -57,11 +62,14 @@ export class UserRepository extends Repository<UserEntity>{
     async updateProfile(profileDto: ProfileDto, user:UserEntity) {
         const { firstName, lastName, userEmail, userPassword, userCity, userState, userCountry, userPostalCode, userBirthDate, userGender } = profileDto;
 
-        const targetuser = await this.findOne({ userEmail });
+        const query=this.createQueryBuilder('users');
+        query.andWhere('users.userEmail=:email',{email:userEmail});
+
+        const targetuser=await query.getOneOrFail();
 
         if(targetuser.id!==user.id)
         {
-            return new UnauthorizedException();
+            throw new UnauthorizedException();
         }
 
         if (targetuser) {
@@ -92,8 +100,8 @@ export class UserRepository extends Repository<UserEntity>{
             if (userGender) {
                 user.userGender = userGender;
             }
-            user.save()
-            const {userPassword, ...result} = user
+            const updatedUser =await user.save()
+            const {userPassword, ...result} = updatedUser
             return result;
         }
         else {
