@@ -6,7 +6,7 @@ import { Field, InputType, ObjectType } from "@nestjs/graphql";
 @InputType()
 export class BlogType{
 
-    @Field()
-    blogRating: Number | null;
+    @Field({nullable:true})
+    rating: null | number;
 
 }

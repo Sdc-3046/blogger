@@ -44,7 +44,7 @@ type SignInResponse {
 }
 
 type Query {
-  getBlogList(blogRating: BlogFilter!): [BlogEntity!]!
+  getBlogList(rating: BlogFilter!): [BlogEntity!]!
   getBlogById(id: Int!): BlogEntity!
   getBlogComments(id: Float!): [BlogCommentEntity!]
   signIn(user: AuthCredentialsDto!): SignInResponse!
@@ -52,11 +52,11 @@ type Query {
 }
 
 input BlogFilter {
-  filter: BlogType!
+  filter: BlogType
 }
 
 input BlogType {
-  blogRating: Float!
+  rating: Float
 }
 
 input AuthCredentialsDto {

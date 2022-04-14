@@ -25,7 +25,7 @@ export class BlogResolver {
     }
 
     @Query(()=>[BlogEntity])
-    getBlogList(@Args('blogRating')args:BlogFilter) {
+    getBlogList(@Args('rating')args:BlogFilter) {
         return this.blogservice.getBlogs(args);
     }
 

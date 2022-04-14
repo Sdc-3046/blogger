@@ -29,17 +29,31 @@ export class BlogRepository extends Repository<BlogEntity>{
     }
 
     async getBlogList(args:BlogFilter) {
-        console.log("getblog executed")
+        
         // eslint-disable-next-line prefer-const
-        const query=this.createQueryBuilder('blog')
-        query.andWhere('blog.blogRating=:rating',{rating:args.filter.blogRating});
-        const bloglist=query.getMany();
+        if(args.filter.rating===null || args.filter.rating===undefined)
+        {
+            const bloglist=await this.find()
 
-        if (bloglist) {
-            return bloglist;
+            if(bloglist)
+            {
+                return bloglist;
+            }
+            else{
+                return null;
+            }
         }
-        else {
-            return 'No blogs yet.'
+        else{
+            const query=this.createQueryBuilder('blog')
+            query.andWhere('blog.blogRating=:rating',{rating:args.filter.rating});
+            const bloglist=query.getMany();
+
+            if (bloglist) {
+                return bloglist;
+            }
+            else {
+                return 'No blogs yet.'
+            }
         }
     }
 

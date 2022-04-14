@@ -11,9 +11,9 @@ import { UsersService } from './users.service';
 
 @Module({
     imports: [JwtModule.register({
-        secret: 'secret',
+        secret: 'shubham',
         signOptions: {
-            expiresIn: 3600,
+            expiresIn: 1800,
         }
     }),
     PassportModule.register({
