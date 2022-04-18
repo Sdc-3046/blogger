@@ -1,15 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, Unique } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 import { Field, ObjectType } from "@nestjs/graphql";
 import { BlogCommentEntity } from "./blog.comment.entity";
 import { UserEntity } from "./user.entity";
 
 @ObjectType()
+@Unique(['blogTitle'])
 @Entity()
 export class BlogEntity{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
     @IsNotEmpty()
@@ -25,9 +26,9 @@ export class BlogEntity{
     @Field()
     blogTags: string;
 
-    @Column({default:new Date().toISOString().slice(0,10)})
+    @Column({default:new Date()})
     @Field()
-    blogDate: string;
+    blogDate: Date;
 
     @Column({default:null})
     @Field({nullable:true})
@@ -36,12 +37,12 @@ export class BlogEntity{
 
     @Column()
     @Field()
-    userId: number;
+    userId: string;
 
-    @ManyToOne(type => UserEntity, user => user.blogs, { eager: false })
+    @ManyToOne(type => UserEntity, user => user.blogs)
     user: UserEntity;
 
-    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { eager: false, onDelete: 'SET NULL' })
+    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { onDelete: 'SET NULL' })
     comments: BlogCommentEntity[];
 
 }

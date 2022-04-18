@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type UserEntity {
-  id: Float!
+  id: String!
   firstName: String!
   lastName: String!
   userEmail: String!
@@ -22,20 +22,20 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type BlogEntity {
-  id: Float!
+  id: String!
   blogTitle: String
   blogContent: String
   blogTags: String!
-  blogDate: String!
+  blogDate: DateTime!
   blogRating: Float
-  userId: Float!
+  userId: String!
 }
 
 type BlogCommentEntity {
-  id: Float!
+  id: String!
   userName: String
   userComment: String
-  blogId: Float!
+  blogId: String!
 }
 
 type SignInResponse {
@@ -45,8 +45,8 @@ type SignInResponse {
 
 type Query {
   getBlogList(rating: BlogFilter!): [BlogEntity!]!
-  getBlogById(id: Int!): BlogEntity!
-  getBlogComments(id: Float!): [BlogCommentEntity!]
+  getBlogById(blogTitle: String!): BlogEntity!
+  getBlogComments(id: String!): [BlogCommentEntity!]
   signIn(user: AuthCredentialsDto!): SignInResponse!
   getUserProfile(userEmail: String!): UserEntity!
 }
@@ -68,21 +68,21 @@ input AuthCredentialsDto {
 
 type Mutation {
   newBlog(blog: BlogTemplateDto!): BlogEntity!
-  deleteBlog(id: Float!): BlogEntity!
+  deleteBlog(blogTitle: String!): BlogEntity!
   updateBlog(updatedBlog: BlogTemplateDto!): BlogEntity!
   createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
-  addBlogComment(id: Float!, userComment: String!): BlogCommentEntity
-  deleteBlogComment(id: Float!): String
+  addBlogComment(id: String!, userComment: String!): BlogCommentEntity
+  deleteBlogComment(id: String!): String
   signUp(user: AuthCredentialsDto!): UserEntity!
   updateProfile(userProfile: ProfileDto!): UserEntity!
 }
 
 input BlogTemplateDto {
-  id: Float
+  id: String
   blogTitle: String
   blogContent: String
   blogTags: String
-  blogDate: String
+  blogDate: DateTime
   blogRating: Float
 }
 

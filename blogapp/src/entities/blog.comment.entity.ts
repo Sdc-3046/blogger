@@ -6,9 +6,9 @@ import { BlogEntity } from "./blogposts.entity";
 @Entity('comment')
 export class BlogCommentEntity extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
     @Field({nullable:true})
@@ -20,7 +20,7 @@ export class BlogCommentEntity extends BaseEntity {
 
     @Column()
     @Field()
-    blogId: number;
+    blogId: string;
 
     @ManyToOne(type => BlogEntity, blog => blog.comments, { eager: true, onDelete: "SET NULL" })
     blog: BlogEntity;

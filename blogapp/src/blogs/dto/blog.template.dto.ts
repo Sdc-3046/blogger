@@ -5,7 +5,7 @@ import { BlogTag } from "src/blogs/blog.tag.enum";
 export class BlogTemplateDto{
 
     @Field({nullable:true})
-    id:number;
+    id:string;
 
     @Field({nullable:true})
     blogTitle: string;
@@ -17,7 +17,7 @@ export class BlogTemplateDto{
     blogTags: BlogTag;
 
     @Field({nullable:true})
-    blogDate: string;
+    blogDate: Date;
 
     @Field({nullable:true})
     blogRating: number;

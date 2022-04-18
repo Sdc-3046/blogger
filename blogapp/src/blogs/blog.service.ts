@@ -19,12 +19,12 @@ export class BlogService {
         return this.blogRepository.createBlog(user,blogTemplateDto);
     }
 
-    async getBlogById(id:number){
-        return this.blogRepository.getBlogById(id);
+    async getBlogById(blogTitle:string){
+        return this.blogRepository.getBlogById(blogTitle);
     }
 
-    async deleteBlogById(id:number,user:UserEntity){
-        return this.blogRepository.deleteBlogById(id,user);
+    async deleteBlogById(blogTitle:string,user:UserEntity){
+        return this.blogRepository.deleteBlogById(blogTitle,user);
     }
 
     async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
@@ -36,15 +36,15 @@ export class BlogService {
         return this.blogRepository.createOrupdateBlog(user,blogTemplateDto);
     }
 
-    async addComment(id: number, userComment: string, user: UserEntity) {
+    async addComment(id: string, userComment: string, user: UserEntity) {
         return this.blogCommentRepository.addComment(id, userComment, user);
     }
 
-    async getComments(id: number) {
+    async getComments(id: string) {
         return this.blogCommentRepository.getComments(id);
     }
 
-    async deleteComments(id: number) {
+    async deleteComments(id: string) {
         return this.blogCommentRepository.deleteComment(id)
     }
 }

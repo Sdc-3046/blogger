@@ -30,8 +30,9 @@ export class BlogRepository extends Repository<BlogEntity>{
     async getBlogList(args:BlogFilter) {
         
         if(args.filter.rating===null || args.filter.rating===undefined)
-        {
-            const bloglist=await this.find()
+        {//if rating is not provided by the user if block will be executed
+            const query=this.createQueryBuilder('blogs')
+            const bloglist=await query.getMany();
 
             if(bloglist)
             {
@@ -41,7 +42,7 @@ export class BlogRepository extends Repository<BlogEntity>{
                 return null;
             }
         }
-        else{
+        else{//if rating is provided by the user else block will be executed
             const query=this.createQueryBuilder('blog')
             query.andWhere('blog.blogRating=:rating',{rating:args.filter.rating});
             const bloglist=query.getMany();
@@ -55,9 +56,9 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async getBlogById(id:number){
+    async getBlogById(blogTitle:string){
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.id=:id',{id:id});
+        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
 
         const targetblog=await query.getOneOrFail();
 
@@ -65,14 +66,14 @@ export class BlogRepository extends Repository<BlogEntity>{
             return targetblog;
         }
         else{
-            return new NotFoundException();
+            throw new NotFoundException();
         }
     }
 
-    async deleteBlogById(id:number,user:UserEntity){
+    async deleteBlogById(blogTitle:string,user:UserEntity){
 
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.id=:id',{id:id});
+        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
 
         const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
@@ -93,7 +94,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
         
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.id=:id',{id:id});
+        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
         
         const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
@@ -122,13 +123,13 @@ export class BlogRepository extends Repository<BlogEntity>{
     async createOrupdateBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto){
 
         const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
-        if(id===undefined || id===null){
-            return this.createBlog(user,blogTemplateDto);
+        if(blogTitle===undefined || blogTitle===null){
+            throw new BadRequestException();
         }
 
         try{
             const query=this.createQueryBuilder('blogs');
-            query.andWhere('blogs.id=:id',{id:id});
+            query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
 
             const targetblog=await query.getOneOrFail();
             
@@ -138,6 +139,9 @@ export class BlogRepository extends Repository<BlogEntity>{
             }
         }
         catch{
+            if(blogTitle!==null || blogTitle!==undefined){
+                return this.createBlog(user,blogTemplateDto)
+            }
             throw new BadRequestException();
         }
         

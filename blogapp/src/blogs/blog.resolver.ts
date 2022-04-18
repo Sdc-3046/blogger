@@ -28,14 +28,14 @@ export class BlogResolver {
     }
 
     @Query(()=>BlogEntity)
-    getBlogById(@Args('id', {type: ()=> Int})id:number,){
-        return this.blogservice.getBlogById(id);
+    getBlogById(@Args('blogTitle')blogTitle:string){
+        return this.blogservice.getBlogById(blogTitle);
     }
 
     @Mutation(()=>BlogEntity, {name:'deleteBlog'})
-    deleteBlog(@GetUser()user:UserEntity,@Args('id') id:number)
+    deleteBlog(@GetUser()user:UserEntity,@Args('blogTitle') blogTitle:string)
     {
-        return this.blogservice.deleteBlogById(id,user);
+        return this.blogservice.deleteBlogById(blogTitle,user);
     }
 
     @Mutation(()=>BlogEntity, {name:'updateBlog'})
@@ -50,17 +50,17 @@ export class BlogResolver {
     }
 
     @Mutation(()=>BlogCommentEntity,{nullable:true, name:'addBlogComment'})
-    addComment(@Args('id') id: number, @Args('userComment') userComment: string, @GetUser() user: UserEntity) {
+    addComment(@Args('id') id: string, @Args('userComment') userComment: string, @GetUser() user: UserEntity) {
         return this.blogservice.addComment(id, userComment, user);
     }
 
     @Mutation(()=>String ,{nullable:true, name:'deleteBlogComment'})
-    deleteComments(@Args('id') id: number) {
+    deleteComments(@Args('id') id: string) {
         return this.blogservice.deleteComments(id);
     }
     
     @Query(()=>[BlogCommentEntity],{nullable:true,name:'getBlogComments'})
-    getComments(@Args('id') id: number) {
+    getComments(@Args('id') id: string) {
         return this.blogservice.getComments(id);
     }
 

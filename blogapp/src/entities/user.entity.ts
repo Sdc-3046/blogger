@@ -7,9 +7,9 @@ import { BlogEntity } from './blogposts.entity';
 @Unique(['userEmail'])
 @ObjectType()
 export class UserEntity extends BaseEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
     @Field()

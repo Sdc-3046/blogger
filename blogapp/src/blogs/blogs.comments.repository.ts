@@ -5,18 +5,18 @@ import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(BlogCommentEntity)
 export class BlogCommentRepository extends Repository<BlogCommentRepository> {
-  async addComment(id: number, userComment: string, user: UserEntity) {
+  async addComment(id: string, userComment: string, user: UserEntity) {
     const comment = new BlogCommentEntity();
     comment.userComment = userComment;
     comment.blogId = id;
     if (user) {
       comment.userName = user.firstName + ' ' + user.lastName;
     }
-    await comment.save();
-    return comment;
+    const result=await comment.save();
+    return result;
   }
 
-  async getComments(id: number) {
+  async getComments(id: string) {
     const query = this.createQueryBuilder('comments');
     
     try {
@@ -25,14 +25,14 @@ export class BlogCommentRepository extends Repository<BlogCommentRepository> {
         const comments =await query.getMany();
 
         if (comments) {
-        return comments;
+          return comments;
         }
     } catch (error) {
-        return null;
+        throw error;
     }
   }
 
-  async deleteComment(id: number) {
+  async deleteComment(id: string) {
     const query = this.createQueryBuilder('comments');
 
     try{
@@ -40,15 +40,15 @@ export class BlogCommentRepository extends Repository<BlogCommentRepository> {
 
         const comments = await query.getOneOrFail()
         if (comments) {
-        await this.remove(comments);
-        return "Successfully deleted the comment"
+          await this.remove(comments);
+          return "Successfully deleted the comment"
         }
         else{
             return "There is some problem in deleting the comment"
         }
     }
     catch{
-        return "Wrong comment id provided"
+        throw "Wrong comment id provided"
     }
   }
 }
