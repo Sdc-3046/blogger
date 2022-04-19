@@ -28,14 +28,14 @@ export class BlogResolver {
     }
 
     @Query(()=>BlogEntity)
-    getBlogById(@Args('blogTitle')blogTitle:string){
-        return this.blogservice.getBlogById(blogTitle);
+    getBlogById(@Args('id')id:string){
+        return this.blogservice.getBlogById(id);
     }
 
     @Mutation(()=>BlogEntity, {name:'deleteBlog'})
-    deleteBlog(@GetUser()user:UserEntity,@Args('blogTitle') blogTitle:string)
+    deleteBlog(@GetUser()user:UserEntity,@Args('id') id:string)
     {
-        return this.blogservice.deleteBlogById(blogTitle,user);
+        return this.blogservice.deleteBlogById(id,user);
     }
 
     @Mutation(()=>BlogEntity, {name:'updateBlog'})

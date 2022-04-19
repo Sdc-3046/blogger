@@ -1,5 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
+import SigninPage from './pages/signin.page';
+import SignupPage from './pages/signup.page';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
@@ -8,14 +11,8 @@ function App() {
         {}
         <Routes>
           <Route path="/" element={<SigninPage />} />
-          <Route path="signup" element={<SignupPage />} />
           <Route path="signin" element={<SigninPage />} />
-          <Route path="createBlog" element={<CreateBlogPage />} />
-          <Route path="blog-list" element={<BlogListPage />} />
-          <Route path="viewblog" element={<BlogViewPage />} />
-          <Route path="mybloglist" element={<MyBlogListPage />} />
-          <Route path="updateBlog" element={<UpdateBlogPage />} />
-          <Route path="myprofile" element={<ProfilePage />} />
+          <Route path="signup" element={<SignupPage />} />
         </Routes>
       </BrowserRouter>
     </div>

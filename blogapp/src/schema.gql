@@ -45,7 +45,7 @@ type SignInResponse {
 
 type Query {
   getBlogList(rating: BlogFilter!): [BlogEntity!]!
-  getBlogById(blogTitle: String!): BlogEntity!
+  getBlogById(id: String!): BlogEntity!
   getBlogComments(id: String!): [BlogCommentEntity!]
   signIn(user: AuthCredentialsDto!): SignInResponse!
   getUserProfile(userEmail: String!): UserEntity!
@@ -68,7 +68,7 @@ input AuthCredentialsDto {
 
 type Mutation {
   newBlog(blog: BlogTemplateDto!): BlogEntity!
-  deleteBlog(blogTitle: String!): BlogEntity!
+  deleteBlog(id: String!): BlogEntity!
   updateBlog(updatedBlog: BlogTemplateDto!): BlogEntity!
   createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
   addBlogComment(id: String!, userComment: String!): BlogCommentEntity

@@ -56,9 +56,9 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async getBlogById(blogTitle:string){
+    async getBlogById(id:string){
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
+        query.andWhere('blogs.id=:id',{id:id});
 
         const targetblog=await query.getOneOrFail();
 
@@ -70,10 +70,10 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async deleteBlogById(blogTitle:string,user:UserEntity){
+    async deleteBlogById(id:string,user:UserEntity){
 
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
+        query.andWhere('blogs.id=:id',{id:id});
 
         const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
@@ -94,7 +94,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
         
         const query=this.createQueryBuilder('blogs');
-        query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
+        query.andWhere('blogs.id=:id',{id:id});
         
         const targetblog=await query.getOneOrFail();
         if(targetblog.userId!==user.id)
@@ -129,7 +129,7 @@ export class BlogRepository extends Repository<BlogEntity>{
 
         try{
             const query=this.createQueryBuilder('blogs');
-            query.andWhere('blogs.blogTitle=:title',{title:blogTitle});
+            query.andWhere('blogs.id=:id',{id:id});
 
             const targetblog=await query.getOneOrFail();
             

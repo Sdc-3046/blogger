@@ -19,12 +19,12 @@ export class BlogService {
         return this.blogRepository.createBlog(user,blogTemplateDto);
     }
 
-    async getBlogById(blogTitle:string){
-        return this.blogRepository.getBlogById(blogTitle);
+    async getBlogById(id:string){
+        return this.blogRepository.getBlogById(id);
     }
 
-    async deleteBlogById(blogTitle:string,user:UserEntity){
-        return this.blogRepository.deleteBlogById(blogTitle,user);
+    async deleteBlogById(id:string,user:UserEntity){
+        return this.blogRepository.deleteBlogById(id,user);
     }
 
     async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
