@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { signin } from '../services/user.service'
 import React from 'react';
 
-const SigninPage = (props) => {
+const SigninPage = (props:any) => {
     const [userEmail, setuserEmail] = useState('')
     const [userPassword, setuserPassword] = useState('')
 
@@ -23,17 +23,17 @@ const SigninPage = (props) => {
                 if(result.data){
                     const token=result.data.signIn.token
                     sessionStorage['token']=token
-                    navigate('/myprofile')
+                    navigate('/homepage')
                 }
             }
         }
     }
 
     return (
-        <div>
+        <div style={{alignContent:"center"}}>
             <div style={{alignContent:"center"}}>
                 <h1 className="header">Signin</h1>
-                <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '100px', marginTop: '100px', background: '#d7d4d7' }}>
+                <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '100px', marginTop: '50px', background: '#d7d4d7', marginLeft:'15%'}}>
                     <div className="mb-3">
                         <label className="form-label" style={{ float: 'left', fontSize: '20px', marginLeft: '10px', fontWeight: 'bold' }}>Email</label>
                         <input

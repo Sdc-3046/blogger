@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -24,6 +23,11 @@ code {
 
 .card{
   margin : 20px;
+  
+}
+
+.card-body{
+  margin-left: 0px;
 }
 
 .tags{

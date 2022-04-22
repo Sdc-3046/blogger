@@ -28,7 +28,7 @@ export class ProfileDto {
     @MinLength(6)
     @MaxLength(6)
     @Field({nullable:true})
-    userPostalCode: number;
+    userPostalCode: string;
 
     @Field({nullable:true})
     userBirthDate: Date;

@@ -11,7 +11,7 @@ type UserEntity {
   userCity: String
   userState: String
   userCountry: String
-  userPostalCode: Float
+  userPostalCode: String
   userBirthDate: DateTime
   userGender: String
 }
@@ -94,7 +94,7 @@ input ProfileDto {
   userCity: String
   userState: String
   userCountry: String
-  userPostalCode: Float
+  userPostalCode: String
   userBirthDate: DateTime
   userGender: String
 }

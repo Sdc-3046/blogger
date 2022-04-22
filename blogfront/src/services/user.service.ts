@@ -3,7 +3,7 @@ import axios from 'axios'
 import { settings } from '../config'
 import { print } from 'graphql'
 
-export const signup = async (firstName, lastName, userEmail, userPassword) => {
+export const signup = async (firstName:string, lastName:string, userEmail:string, userPassword:string) => {
     const url = settings.server
 
     const response=await axios({
@@ -36,7 +36,7 @@ export const signup = async (firstName, lastName, userEmail, userPassword) => {
     return response.data    
 }
 
-export const signin = async (userEmail, userPassword) => {
+export const signin = async (userEmail:string, userPassword:string) => {
     const url = settings.server
 
     const response=await axios({
@@ -87,7 +87,7 @@ export const signin = async (userEmail, userPassword) => {
     return response.data
 }
 
-export const updateprofile = async (firstName, lastName, userEmail, userCity, userState, userCountry, userPostalCode, userBirthDate, userGender) => {
+export const updateprofile = async (firstName:string, lastName:string, userEmail:string, userCity:string, userState:string, userCountry:string, userPostalCode:string, userBirthDate:string, userGender:string) => {
     const url = settings.server
     console.log(userBirthDate)
     const result=await axios({
@@ -97,7 +97,7 @@ export const updateprofile = async (firstName, lastName, userEmail, userCity, us
             query: print(gql`
             
             mutation($userEmail:String,$userState:String,$userCity:String,$userCountry:String,
-            $userPostalCode:String,$userGender:String,$firstName:String,$lastName:String,$userBirthDate:Date)
+            $userPostalCode:String,$userGender:String,$firstName:String,$lastName:String)
             {
                 updateProfile(userProfile:{
                     userEmail:$userEmail
@@ -108,7 +108,6 @@ export const updateprofile = async (firstName, lastName, userEmail, userCity, us
                     userGender:$userGender
                     firstName:$firstName
                     lastName:$lastName
-                    userBirthDate:$userBirthDate
                 }),
                 {
                     firstName
@@ -139,7 +138,7 @@ export const updateprofile = async (firstName, lastName, userEmail, userCity, us
         }
         
     })
-
+    console.log(result)
     sessionStorage['firstName'] = result.data.data.updateProfile.firstName
     sessionStorage['lastName'] = result.data.data.updateProfile.lastName
     sessionStorage['userCity'] = result.data.data.updateProfile.userCity

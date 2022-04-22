@@ -27,8 +27,6 @@ export class UsersService {
         };
         console.log("Signed in")
         const token = this.jwtService.sign(payload)
-        
-        console.log(token)
         return {token,user};
     }
 

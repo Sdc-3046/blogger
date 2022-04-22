@@ -13,37 +13,37 @@ export class UserEntity extends BaseEntity {
 
     @Column()
     @Field()
-    firstName: string;
+    firstName: String;
 
     @Column()
     @Field()
-    lastName: string;
+    lastName: String;
 
     @Column()
     @Field()
-    userEmail: string;
+    userEmail: String;
 
     @Column()
     @Field({nullable:true})
-    userPassword: string;
+    userPassword: String;
 
     @Column({default:null})
     @Field({nullable:true})
-    userCity: string;
+    userCity: String;
 
     @Column({default:null})
     @Field({nullable:true})
-    userState: string;
+    userState: String;
 
     @Column({default:null})
     @Field({nullable:true})
-    userCountry: string;
+    userCountry: String;
 
     @Column({default:null})
     @MinLength(6)
     @MaxLength(6)
     @Field({nullable:true})
-    userPostalCode: number;
+    userPostalCode: String;
 
     @Column({default:null})
     @Field({nullable:true})
@@ -51,7 +51,7 @@ export class UserEntity extends BaseEntity {
 
     @Column({default:null})
     @Field({nullable:true})
-    userGender: string;
+    userGender: String;
 
     @OneToMany(type => BlogEntity, blog => blog.user, { eager: true, onDelete: 'SET NULL' })
     blogs: BlogEntity[];
