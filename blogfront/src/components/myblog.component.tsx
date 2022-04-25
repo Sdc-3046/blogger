@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteBlogs, getBloglist, updateBlog, viewBlog } from '../services/blog.service';
+import { deleteBlog, getBloglist, updateBlog, viewBlog } from '../services/blog.service';
 
 const MyBlog = (props:any) => {
     const { id, blogTitle, blogContent, blogDate, blogTags } = props
@@ -17,9 +17,9 @@ const MyBlog = (props:any) => {
         navigate('/updateblog')
     }
 
-    const deleteBlog = () => {
+    const ondeleteBlog = () => {
         //console.log(id)
-        deleteBlogs(id)
+        deleteBlog(id);
         //navigate('/blog-list')
     }
 
@@ -36,7 +36,7 @@ const MyBlog = (props:any) => {
                     Read full story
                 </button>
                 <button onClick={updateBlog} className="btn btn-success">Update</button>
-                <button onClick={deleteBlog} className="btn btn-danger">Delete</button>
+                <button onClick={ondeleteBlog} className="btn btn-danger">Delete</button>
             </div>
         </div>
     )

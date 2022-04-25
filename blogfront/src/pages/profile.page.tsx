@@ -30,6 +30,9 @@ const ProfilePage = (props:any) => {
         navigate('/myprofile')
     }
 
+    const createblog = async()=>{
+        navigate('/createblog')
+    }
 
     const logout = () => {
         sessionStorage.removeItem('token')
@@ -51,6 +54,7 @@ const ProfilePage = (props:any) => {
 
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>
+                    <Dropdown.Item onClick={createblog}>Write A New Blog</Dropdown.Item> 
                     <Dropdown.Item onClick={getallBlogs}>Homepage</Dropdown.Item>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
 

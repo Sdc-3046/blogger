@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import React from 'react';
-import {viewBlog } from '../services/blog.service';
+import {addComment, getcomments, viewBlog } from '../services/blog.service';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BlogPage from '../components/blog.page.component';
 import Comments from '../components/comments.component';
@@ -29,16 +29,15 @@ const BlogViewPage = (props:any) => {
 
     const loadBlog = async () => {
         const result = await viewBlog(sessionStorage['id'])
-        const responese = await getcomments(sessionStorage['id'])
-        console.log(sessionStorage.getItem('id'))
+        const response = await getcomments(sessionStorage['id'])
         if (result) {
-            /* sessionStorage['blogTitle'] = result.blogTitle;
+            sessionStorage['blogTitle'] = result.blogTitle;
             sessionStorage['blogContent'] = result.blogContent;
             sessionStorage['blogTags'] = result.blogTags;
-            sessionStorage['blogDate'] = result.blogDate; */
+            sessionStorage['blogDate'] = result.blogDate;
 
             setBlog(result)
-            setComments(responese)
+            setComments(response)
         }
 
     }
@@ -52,14 +51,12 @@ const BlogViewPage = (props:any) => {
     }
 
     const getallBlogs = () => {
-        navigate('/blog-list')
+        navigate('/homepage')
     }
 
     const publishComment = async () => {
-        const result = await addComment(sessionStorage.getItem('id'), comtext)
-        console.log(comtext)
-        console.log(result)
-        if (result) {
+        const result = await addComment(sessionStorage['id'], comtext)
+       if (result) {
             loadBlog()
         }
     }

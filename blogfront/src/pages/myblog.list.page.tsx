@@ -22,8 +22,6 @@ const BlogListPage = (props:any) => {
         }
     }
 
-    
-
     const logout = () => {
 
         sessionStorage.removeItem('token')

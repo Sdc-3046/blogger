@@ -46,7 +46,7 @@ const CreateBlogPage = (props:any) => {
     }
 
     const getallBlogs = () => {
-        navigate('/blog-list')
+        navigate('/homepage')
     }
 
     return (

@@ -36,11 +36,11 @@ export class BlogCommentRepository extends Repository<BlogCommentRepository> {
     const query = this.createQueryBuilder('comments');
 
     try{
-        query.andWhere('comments.id=:id', { id: id });
+        query.andWhere('comments.blogId=:id', { id: id });
 
-        const comments = await query.getOneOrFail()
+        const comments = await query.getMany()
         if (comments) {
-          await this.remove(comments);
+          await this.delete(comments);
           return "Successfully deleted the comment"
         }
         else{
