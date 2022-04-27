@@ -24,7 +24,9 @@ const ProfilePage = (props:any) => {
         }
     }
 
-    
+    const myblogList=()=>{
+        navigate('/dashboard')
+    }
 
     const myProfile = async () => {
         navigate('/myprofile')
@@ -49,21 +51,24 @@ const ProfilePage = (props:any) => {
         <div>
             <Dropdown className='dropdown' style={{ float: 'right' }}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Options
+                    Welcome {sessionStorage['firstName']}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>
-                    <Dropdown.Item onClick={createblog}>Write A New Blog</Dropdown.Item> 
+                    <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>  
+                    <Dropdown.Item onClick={createblog}>Write A New Blog</Dropdown.Item>
+                    <Dropdown.Item onClick={myblogList}>DashBoard</Dropdown.Item>
                     <Dropdown.Item onClick={getallBlogs}>Homepage</Dropdown.Item>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
 
                 </Dropdown.Menu>
             </Dropdown>
+
+            <h1 className="webTitle">Blogger</h1>
+            
             <div className='currentprofile'>
 
                 <div>
-                    <h5 className='greetings'>Welcome {sessionStorage.getItem('firstName')},</h5>
                     <h2 className='subheading'>My Profile</h2>
                 </div>
 
@@ -120,7 +125,7 @@ const ProfilePage = (props:any) => {
                             (e) => {
                                 setFirstName(e.target.value)
                             }}
-                            className="form-control" id="floatingInput" placeholder="First Name" style={{ height: '45px', }} />
+                            className="form-control" name="firstName" id="floatingInput" placeholder="First Name" style={{ height: '45px', }} />
                         <label >First Name</label>
                     </div>
 

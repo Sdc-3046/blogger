@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import React from 'react';
-import { getMyBlogs } from '../services/blog.service';
+import { useNavigate } from 'react-router-dom'
+import { getBloglist, searchBlogs } from '../services/blog.service';
 import Dropdown from 'react-bootstrap/Dropdown'
-import MyBlog from '../components/myblog.component';
+import Blog from '../components/blog.list.card.component';
 
-const MyBlogList = (props:any) => {
+const HomePage = (props:any) => {
     const [blogs, setBlogs] = useState([])
+    const [searchText, setSearchText]=useState('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -15,17 +15,31 @@ const MyBlogList = (props:any) => {
 
 
     const loadBlogs = async () => {
-        const result = await getMyBlogs(sessionStorage['userId'])
-        
+        const result = await getBloglist(0)
+        const blogs=result.getBlogList
         if (result) {
+            setBlogs(blogs)
+        }
+    }
+
+    const onSearch=async()=>{
+        const result=await searchBlogs(searchText)
+        if(result){
             setBlogs(result)
         }
     }
 
+    const onSort=async(rating:number)=>{
+        const result=await getBloglist(rating)
+        if(result.getBlogList){
+            setBlogs(result.getBlogList)
+        }
+    }
+
     const logout = () => {
+
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('userEmail')
-        sessionStorage.clear()
         navigate('/signin')
     }
 
@@ -38,6 +52,7 @@ const MyBlogList = (props:any) => {
     }
 
     const getallBlogs = () => {
+        loadBlogs()
         navigate('/homepage')
     }
 
@@ -64,12 +79,36 @@ const MyBlogList = (props:any) => {
 
             <h1 className="webTitle">Blogger</h1>
 
+            <div className='searchBox'>
+                <input onChange={(e) => {
+                                setSearchText(e.target.value)
+                            }} type="text" placeholder='Search' className='searchText' />
+                <button className='searchBtn' onClick={onSearch}>Search</button>
+            </div>
+
+            <div >
+                <Dropdown className='sortDropdown'>
+                    <Dropdown.Toggle>
+                        Sort By Rating
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={()=>{onSort(5)}}>5 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(4)}}>4 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(3)}}>3 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(2)}}>2 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(1)}}>1 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(0)}}>Get All Blogs</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+
             <div className='blogsContainer'>
                 <div className="row">
                     {blogs.length > 0 && blogs.map((blog) => {
                         const { id, blogTitle, blogContent, blogDate, blogTags } = blog
                         return (
-                            <MyBlog
+                            <Blog
                                 key={id}
                                 id={id}
                                 blogTitle={blogTitle}
@@ -86,4 +125,4 @@ const MyBlogList = (props:any) => {
     )
 }
 
-export default MyBlogList
+export default HomePage

@@ -25,7 +25,7 @@ export class UsersService {
             userEmail: authCredentialsDto.userEmail,
             id: (await user).id,
         };
-        console.log("Signed in")
+        
         const token = this.jwtService.sign(payload)
         return {token,user};
     }

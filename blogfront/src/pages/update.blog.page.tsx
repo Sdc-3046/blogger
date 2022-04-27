@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { createBlog } from '../services/blog.service'
+import { updateBlog } from '../services/blog.service'
 import Dropdown from 'react-bootstrap/Dropdown'
 import React, { Component } from 'react';
 
-const CreateBlogPage = (props:any) => {
+const UpdateBlogPage = (props:any) => {
     const [blogTitle, setBlogTitle] = useState('')
     const [blogContent, setBlogContent] = useState('')
     const [blogTags, setBlogTag] = useState('')
     const [blogRating, setBlogRating]=useState(4)
-
+    
     const navigate = useNavigate()
 
-    const onCreateBlog = async () => {
+    const onupdateBlog = async () => {
         if (blogTitle.length === 0) {
             alert('set title')
         } else if (blogContent.length === 0) {
@@ -22,7 +22,7 @@ const CreateBlogPage = (props:any) => {
             alert('select a tag for a blog')
         }
         else {
-            const result = await createBlog(blogTitle, blogContent, blogTags)
+            const result = await updateBlog(sessionStorage['id'],blogTitle, blogContent, blogTags)
             if (result) {
                 navigate('/homepage')
             } else {
@@ -75,7 +75,7 @@ const CreateBlogPage = (props:any) => {
             <div className='blogCreateContainer'>
                 <div className="form">
                     <div className="mb-3">
-                        <label id='blogtitlecreatepage' className="form-label"><h3>Title</h3></label>
+                        <label id='blogtitleupdatepage' className="form-label"><h3>Title</h3></label>
                         <input
                             onChange={(e) => {
                                 setBlogTitle(e.target.value)
@@ -96,32 +96,31 @@ const CreateBlogPage = (props:any) => {
                         ></textarea>
                     </div>
 
-            </div>
-                <div className='tags'>
-                    <h4>Tags</h4>
-                    <button value={"FOOD"} onClick={(e) => {
-                        setBlogTag("FOOD")
-                    }}>FOOD</button>
+                    <div className='tags'>
+                        <h4>Tags</h4>
+                        <button value={"FOOD"} onClick={(e) => {
+                            setBlogTag("FOOD")
+                        }}>FOOD</button>
 
-                    <button value={"ART"} onClick={(e) => {
-                        setBlogTag("ART")
-                    }}>ART</button>
+                        <button value={"ART"} onClick={(e) => {
+                            setBlogTag("ART")
+                        }}>ART</button>
 
-                    <button value={"SPORTS"} onClick={(e) => {
-                        setBlogTag("SPORTS")
-                    }}>SPORTS</button>
+                        <button value={"SPORTS"} onClick={(e) => {
+                            setBlogTag("SPORTS")
+                        }}>SPORTS</button>
 
-                    <button value={"LIFESTYLE"} onClick={(e) => {
-                        setBlogTag("LIFESTYLE")
-                    }}>LIFESTYLE</button>
+                        <button value={"LIFESTYLE"} onClick={(e) => {
+                            setBlogTag("LIFESTYLE")
+                        }}>LIFESTYLE</button>
 
-                    <button value={"NEWS"} onClick={(e) => {
-                        setBlogTag("NEWS")
+                        <button value={"NEWS"} onClick={(e) => {
+                            setBlogTag("NEWS")
 
-                    }}>NEWS</button>
+                        }}>NEWS</button>
 
 
-                </div>
+                    </div>
 
                 <div className='ratingBtnPanel'>
                     
@@ -136,22 +135,22 @@ const CreateBlogPage = (props:any) => {
                     <button className='ratingBtns' onClick={()=>{setBlogRating(1)}}>1 Star</button>
                 </div>
 
-                <div className="mb-3">
-                    <button onClick={onCreateBlog} className="btn btn-success">
-                        Save
-                    </button>
-                    <Link
-                        to="/homepage"
-                        style={{ marginLeft: '10px' }}
-                        className="btn btn-danger"
-                    >
-                        Cancel
-                    </Link>
+                    <div className="mb-3">
+                        <button onClick={onupdateBlog} className="btn btn-success">
+                            Save
+                        </button>
+                        <Link
+                            to="/homepage"
+                            style={{ marginLeft: '10px' }}
+                            className="btn btn-danger"
+                        >
+                            Cancel
+                        </Link>
+                    </div>
                 </div>
-
+            </div >
             </div>
-        </div >
     )
 }
 
-export default CreateBlogPage
+export default UpdateBlogPage

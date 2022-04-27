@@ -8,7 +8,7 @@ const BlogPage = (props:any) => {
     return (
         <div>
             <div className='blogtitleView'><h1> {blogTitle} </h1> </div>
-            <div className='blogdateview' ><h5>{blogDate}</h5></div>
+            <div className='blogdateview' ><h5>{blogDate.slice(0,10)}</h5></div>
             <div style={{ padding: '50px' }} className='blogcontentView'>{blogContent}</div>
         </div>
     )

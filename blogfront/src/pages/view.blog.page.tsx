@@ -46,12 +46,16 @@ const BlogViewPage = (props:any) => {
         navigate('/myprofile')
     }
 
-    const myBlogs = async () => {
-        navigate('/mybloglist')
+    const myblogList=()=>{
+        navigate('/dashboard')
     }
 
     const getallBlogs = () => {
         navigate('/homepage')
+    }
+
+    const createblog = async()=>{
+        navigate('/createblog')
     }
 
     const publishComment = async () => {
@@ -65,53 +69,55 @@ const BlogViewPage = (props:any) => {
         <div>
             <Dropdown className='dropdown' style={{ float: 'right' }}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Options
+                    Welcome {sessionStorage['firstName']}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>
-                    <Dropdown.Item onClick={createBlog}>Write a blog</Dropdown.Item>
-                    <Dropdown.Item onClick={myBlogs}>My Blogs</Dropdown.Item>
+                    <Dropdown.Item onClick={myProfile}>My Profile</Dropdown.Item>  
+                    <Dropdown.Item onClick={createblog}>Write A New Blog</Dropdown.Item>
+                    <Dropdown.Item onClick={myblogList}>DashBoard</Dropdown.Item>
                     <Dropdown.Item onClick={getallBlogs}>Homepage</Dropdown.Item>
                     <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
 
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="header">Blogger</h1>
+            <h1 className="webTitle">Blogger</h1>
 
-            <div className="row">
-
-                <BlogPage
-                    blogTitle={sessionStorage.getItem('blogTitle')}
-                    blogContent={sessionStorage.getItem('blogContent')}
-                    blogTags={sessionStorage.getItem('blogTags')}
-                    blogDate={sessionStorage.getItem('blogDate')}
-                />
-
-            </div>
-
-            <div style={{ marginBottom: '30px' }}>
-                <h2 style={{ marginTop: '20px' }}>Comments</h2>
+            <div className='viewBlogContainer'>
                 <div className="row">
-                    {comments.map((comment) => {
-                        const { id, userName, userComment, blogId } = comment
-                        return (
-                            <Comments
-                                key={id}
-                                id={id}
-                                userName={userName}
-                                userComment={userComment}
-                            />
-                        )
-                    })}
+
+                    <BlogPage
+                        blogTitle={sessionStorage.getItem('blogTitle')}
+                        blogContent={sessionStorage.getItem('blogContent')}
+                        blogTags={sessionStorage.getItem('blogTags')}
+                        blogDate={sessionStorage.getItem('blogDate')}
+                    />
+
                 </div>
 
-                <div className='addcomment'>
-                    <input onChange={(e) => {
-                        setComtext(e.target.value)
-                    }} type="text" placeholder='Post a comment' className='addComtext' />
-                    <button className='btn btn-success' onClick={publishComment} style={{ float: 'right', width: '200px', height: '40px', marginBottom: '40px' }}>Post</button>
+                <div style={{ marginBottom: '30px' }}>
+                    <h2 style={{ marginTop: '20px', textAlign:'left' }}>Comments</h2>
+                    <div className="row">
+                        {comments.map((comment) => {
+                            const { id, userName, userComment, blogId } = comment
+                            return (
+                                <Comments
+                                    key={id}
+                                    id={id}
+                                    userName={userName}
+                                    userComment={userComment}
+                                />
+                            )
+                        })}
+                    </div>
+
+                    <div className='addcomment'>
+                        <input onChange={(e) => {
+                            setComtext(e.target.value)
+                        }} type="text" placeholder='Post a comment' className='addComtext' />
+                        <button className='btn btn-success' onClick={publishComment} style={{ float: 'right', width: '200px', height: '40px', marginBottom: '40px' }}>Post</button>
+                    </div>
                 </div>
             </div>
 

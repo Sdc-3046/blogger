@@ -53,6 +53,7 @@ export const signin = async (userEmail:string, userPassword:string) => {
                 {   
                     token
                     user{
+                        id
                         firstName
                         lastName
                         userEmail
@@ -75,6 +76,7 @@ export const signin = async (userEmail:string, userPassword:string) => {
     //console.log(response.data)
     const res=response.data.data.signIn.user
 
+    sessionStorage['userId']=res.id
     sessionStorage['firstName'] = res.firstName
     sessionStorage['userEmail']=res.userEmail
     sessionStorage['lastName'] = res.lastName

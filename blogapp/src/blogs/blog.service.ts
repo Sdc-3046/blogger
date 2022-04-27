@@ -47,4 +47,12 @@ export class BlogService {
     async deleteComments(id: string) {
         return this.blogCommentRepository.deleteComment(id)
     }
+
+    async getMyBlogs(id:string){
+        return this.blogRepository.getMyBlogs(id);
+    }
+
+    async searchBlogs(searchText:string){
+        return this.blogRepository.searchBlogs(searchText);
+    }
 }

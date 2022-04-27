@@ -5,6 +5,6 @@ import { BlogType } from "./blog.type"
 export class BlogFilter{
     
     @Field({nullable:true})
-    filter?:BlogType;
+    rating:number | null;
     
 }

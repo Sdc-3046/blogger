@@ -34,7 +34,7 @@ const SignupPage = (props:any) => {
     return (
         <div>
             <div style={{alignContent:"center"}}>
-                <h1 className="header">Signup</h1>
+                <h1 className="header">Sign Up</h1>
                 <div className="form" style={{ width: '60%', borderRadius: '40px', padding: '50px', marginTop: '50px', background: '#d7d4d7', marginLeft:'20%', marginBottom:'50px' }}>
                     <div className="mb-3">
                         <label className="form-label" style={{ float: 'left', fontSize: '20px', marginLeft: '10px', fontWeight: 'bold' }}>Firstname</label>

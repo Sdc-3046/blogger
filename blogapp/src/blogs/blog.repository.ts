@@ -29,11 +29,11 @@ export class BlogRepository extends Repository<BlogEntity>{
 
     async getBlogList(args:BlogFilter) {
         
-        if(args.filter.rating===null || args.filter.rating===undefined)
+        if(args.rating===null || args.rating===undefined || args.rating===0)
         {//if rating is not provided by the user if block will be executed
             const query=this.createQueryBuilder('blogs')
             const bloglist=await query.getMany();
-
+            
             if(bloglist)
             {
                 return bloglist;
@@ -44,15 +44,15 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
         else{//if rating is provided by the user else block will be executed
             const query=this.createQueryBuilder('blog')
-            query.andWhere('blog.blogRating=:rating',{rating:args.filter.rating});
-            const bloglist=query.getMany();
-
+            
+            query.andWhere('blog.blogRating=:rating',{rating:args.rating});
+            const bloglist=await query.getMany();
             if (bloglist) {
                 return bloglist;
             }
             else {
                 return 'No blogs yet.'
-            }
+            }   
         }
     }
 
@@ -146,5 +146,34 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
         
 
+    }
+
+    async getMyBlogs(id:string){
+        
+        try{
+            const query=this.createQueryBuilder('blogs');
+            query.andWhere('blogs.userId=:id',{id:id});
+
+            const list=await query.getMany();
+            return list;
+        }
+        catch{
+            throw new NotFoundException();
+        }  
+
+    }
+
+    async searchBlogs(searchText:string){
+        
+        try{
+
+            const query=this.createQueryBuilder('blogs');
+            query.andWhere('blogs.blogTitle LIKE :searchText',{searchText:searchText+'%'})
+            const result=query.getMany();
+            return result;
+        }
+        catch{
+            throw new NotFoundException();
+        }
     }
 }

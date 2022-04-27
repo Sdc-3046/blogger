@@ -23,7 +23,7 @@ export class BlogResolver {
     }
 
     @Query(()=>[BlogEntity])
-    getBlogList(@Args('rating')args:BlogFilter) {
+    getBlogList(@Args('filter')args:BlogFilter) {
         return this.blogservice.getBlogs(args);
     }
 
@@ -62,6 +62,16 @@ export class BlogResolver {
     @Query(()=>[BlogCommentEntity],{nullable:true,name:'getBlogComments'})
     getComments(@Args('id') id: string) {
         return this.blogservice.getComments(id);
+    }
+
+    @Query(()=>[BlogEntity],{nullable:true, name:'getMyBlogs'})
+    getMyBlogs(@Args('id')id:string){
+        return this.blogservice.getMyBlogs(id);
+    }
+
+    @Query(()=>[BlogEntity], {nullable:true, name:'searchBlogs'})
+    searchBlogs(@Args('searchText')searchText:string){
+        return this.blogservice.searchBlogs(searchText);
     }
 
 }

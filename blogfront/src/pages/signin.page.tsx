@@ -32,7 +32,7 @@ const SigninPage = (props:any) => {
     return (
         <div style={{alignContent:"center"}}>
             <div style={{alignContent:"center"}}>
-                <h1 className="header">Signin</h1>
+                <h1 className="header">Sign In</h1>
                 <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '100px', marginTop: '50px', background: '#d7d4d7', marginLeft:'15%'}}>
                     <div className="mb-3">
                         <label className="form-label" style={{ float: 'left', fontSize: '20px', marginLeft: '10px', fontWeight: 'bold' }}>Email</label>

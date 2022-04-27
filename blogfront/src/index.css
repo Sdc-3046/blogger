@@ -12,28 +12,7 @@ code {
     monospace;
 }
 
-.card-body button{
-  margin: 10px;
-}
 
-.header{
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.card{
-  margin : 20px;
-  
-}
-
-.card-body{
-  margin-left: 0px;
-}
-
-.tags{
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
 
 .tags button{
   margin: 5px;
@@ -46,13 +25,8 @@ code {
   border-radius: 10px;
 }
 
-#blogtitlecreatepage{
-  margin-top: 30px;
-}
-
-#createpageheader{
-  margin-top: 10px;
-  width: 100%;
+.tags button:focus{
+  background-color: rgb(206, 5, 72);
 }
 
 body{
@@ -60,10 +34,6 @@ body{
   margin: 0%;
 }
 
-.subheading{
-  margin-left: 38%;
-  margin-top: 10px;
-}
 
 #inputdate{
   margin-left: 10px;
@@ -76,25 +46,12 @@ body{
 
 }
 
-.greetings{
-  float: left;
-}
-
-.mb-3{
-  margin-left: 8px;
-}
-
 .dropdown{
-  margin-top: 20px;
+  position: absolute;
+  right: 4%;
+  top: 2%;
 }
 
-.blogtitleView{
-  margin: 30px;
-}
-
-.blogdateview{
-  margin-left: 80%;
-}
 
 .blogcontentView{
   border: 0px;
@@ -144,13 +101,114 @@ body{
   max-height: 4.8em;
 }
 
-.addcomment{
-  margin-top: 20px;
-  margin-bottom: 40px;
+.card{
+  margin: 10px;
+  text-align: left;
+}
+
+.header{
+  background-color: lightblue;
+  padding: 15px;
+  border-radius: 10px;
+  margin-left: 3%;
+  margin-top: 0.5%;
+  margin-right: 3%;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.blogsContainer{
+  margin-left:5%;
+  margin-right:5%;
+  margin-top: 50px;
+}
+
+.webTitle{
+  text-align: left;
+  margin-left: 2%;
+  margin-top: 0.5%;
+  margin-right: 2%;
+  background-color: lightblue;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+#viewBlogBtn{
+  margin: 5px;
+}
+
+#updateBlogBtn{
+  margin: 5px;
+}
+
+#deleteBtn{
+  margin: 5px;
+}
+
+
+.blogCreateContainer{
+  margin-left:10%;
+  margin-right: 10%;
+}
+
+.viewBlogContainer{
+  margin:5%;
+}
+
+.blogtitleView{
+  text-align: left;
+}
+
+.blogdateview{
+  text-align: right;
+}
+
+.blogcontentView{
+  text-align: justify;
 }
 
 .addComtext{
-  margin: 10px;
+  width: 80%;
   height: 40px;
-  width: 100%;
+}
+
+.searchBox{
+  position: absolute;
+  top:2.5%;
+  left:50%
+}
+
+.searchText{
+  width: 300px;
+  height: 35px;
+  border-radius: 10px;
+  border: 0px;
+  text-align: left;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.searchBtn{
+  width: 100px;
+  height: 35px;
+  border-radius: 10px;
+  border: 0px;
+}
+
+.sortDropdown{
+  top:15%
+}
+
+.ratingBtns{
+  width: 90px;
+  padding: 5px;
+  height: 40px;
+  border-radius: 10px;
+  border: 0px;
+  margin: 5px;
+  margin-bottom: 20px;
+}
+
+.ratingBtns:focus{
+  background-color: gold;
 }

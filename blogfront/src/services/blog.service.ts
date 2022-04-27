@@ -4,7 +4,6 @@ import { settings } from '../config'
 import { print } from 'graphql'
 
 export const getBloglist = async (blogRating:number) => {
-
     const url = settings.server
     const token = sessionStorage['token']
     const response=await axios({
@@ -13,9 +12,9 @@ export const getBloglist = async (blogRating:number) => {
         data: {
             query: print(gql`
             
-            query
+            query($blogRating:Float!)
             {
-                getBlogList(rating:{filter:{}})
+                getBlogList(filter:{rating:$blogRating})
                 {
                     id
                     blogTitle
@@ -267,4 +266,65 @@ export const addComment=async(id:string,userComment:string)=>{
     })
     console.log(response)
     return response.data.data.addBlogComment;
+}
+
+export const getMyBlogs=async (id:string)=>{
+    const url=settings.server;
+    const response=await axios({
+        method:'POST',
+        url:url,
+        data:{
+            query: print(gql `
+                query($id:String!){
+                    getMyBlogs(id:$id)
+                    {
+                        id
+                        blogTitle
+                        blogContent
+                        blogTags
+                        blogDate
+                        blogRating
+                        userId
+                    }
+                }
+            `),
+            variables:{
+                id:id
+            }
+        },
+        headers:{
+            Authorization: `Bearer ${sessionStorage['token']}`
+        }
+    })
+    return response.data.data.getMyBlogs;
+}
+
+export const searchBlogs=async (searchText:string)=>{
+    const url=settings.server
+
+    const response=await axios({
+
+        url:url,
+        method:'POST',
+        data:{
+            query: print(gql`
+
+                query($searchText:String!){
+                    searchBlogs(searchText:$searchText)
+                    {
+                        id
+                        blogTitle
+                        blogContent
+                    }
+                }
+            `),
+            variables:{
+                searchText:searchText
+            }
+        },
+        headers:{
+            Authorization: `Bearer ${sessionStorage['token']}`
+        }
+    })
+    return response.data.data.searchBlogs
 }
