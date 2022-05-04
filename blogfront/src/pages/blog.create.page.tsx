@@ -4,7 +4,7 @@ import { createBlog } from '../services/blog.service'
 import Dropdown from 'react-bootstrap/Dropdown'
 import React, { Component } from 'react';
 
-const CreateBlogPage = (props:any) => {
+const CreateBlogPage = () => {
     const [blogTitle, setBlogTitle] = useState('')
     const [blogContent, setBlogContent] = useState('')
     const [blogTags, setBlogTag] = useState('')
@@ -22,7 +22,7 @@ const CreateBlogPage = (props:any) => {
             alert('select a tag for a blog')
         }
         else {
-            const result = await createBlog(blogTitle, blogContent, blogTags)
+            const result = await createBlog(blogTitle, blogContent, blogTags,blogRating)
             if (result) {
                 navigate('/homepage')
             } else {
@@ -71,7 +71,7 @@ const CreateBlogPage = (props:any) => {
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="webTitle">Blogger</h1>
+            <h1 className="webTitle"><a href='homepage' style={{textDecoration:'none', color:'darkcyan'}}>Blogger</a></h1>
             <div className='blogCreateContainer'>
                 <div className="form">
                     <div className="mb-3">
@@ -123,18 +123,6 @@ const CreateBlogPage = (props:any) => {
 
                 </div>
 
-                <div className='ratingBtnPanel'>
-                    
-                    <div>
-                    <label className="form-label"><h4>Blog Rating</h4></label>
-                    </div>
-
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(5)}}>5 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(4)}}>4 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(3)}}>3 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(2)}}>2 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(1)}}>1 Star</button>
-                </div>
 
                 <div className="mb-3">
                     <button onClick={onCreateBlog} className="btn btn-success">

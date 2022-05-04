@@ -5,7 +5,7 @@ import { getMyBlogs } from '../services/blog.service';
 import Dropdown from 'react-bootstrap/Dropdown'
 import MyBlog from '../components/myblog.component';
 
-const MyBlogList = (props:any) => {
+const MyBlogList = () => {
     const [blogs, setBlogs] = useState([])
     const navigate = useNavigate()
 
@@ -62,12 +62,12 @@ const MyBlogList = (props:any) => {
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="webTitle">Blogger</h1>
+            <h1 className="webTitle"><a href='homepage' style={{textDecoration:'none', color:'darkcyan'}}>Blogger</a></h1>
 
             <div className='blogsContainer'>
                 <div className="row">
                     {blogs.length > 0 && blogs.map((blog) => {
-                        const { id, blogTitle, blogContent, blogDate, blogTags } = blog
+                        const { id, blogTitle, blogContent, blogDate, blogTags,blogRating } = blog
                         return (
                             <MyBlog
                                 key={id}
@@ -76,7 +76,7 @@ const MyBlogList = (props:any) => {
                                 blogContent={blogContent}
                                 blogDate={blogDate}
                                 blogTags={blogTags}
-
+                                blogRating={blogRating+"⭐"}
                             />
                         )
                     })}

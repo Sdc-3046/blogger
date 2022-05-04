@@ -1,5 +1,5 @@
-import { BlogCommentEntity } from "src/entities/blog.comment.entity";
-import { UserEntity } from "src/entities/user.entity";
+import { BlogCommentEntity } from "../entities/blog.comment.entity";
+import { UserEntity } from "../entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 
 

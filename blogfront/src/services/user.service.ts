@@ -77,15 +77,8 @@ export const signin = async (userEmail:string, userPassword:string) => {
     const res=response.data.data.signIn.user
 
     sessionStorage['userId']=res.id
-    sessionStorage['firstName'] = res.firstName
     sessionStorage['userEmail']=res.userEmail
-    sessionStorage['lastName'] = res.lastName
-    sessionStorage['userCity'] = res.userCity
-    sessionStorage['userState'] = res.userState
-    sessionStorage['userCountry'] = res.userCountry
-    sessionStorage['userPostalCode'] = res.userPostalCode
-    sessionStorage['userBirthDate'] = res.userBirthDate
-    sessionStorage['userGender'] = res.userGender 
+    sessionStorage['firstName']=res.firstName
     return response.data
 }
 
@@ -141,15 +134,37 @@ export const updateprofile = async (firstName:string, lastName:string, userEmail
         
     })
     console.log(result)
-    sessionStorage['firstName'] = result.data.data.updateProfile.firstName
-    sessionStorage['lastName'] = result.data.data.updateProfile.lastName
-    sessionStorage['userCity'] = result.data.data.updateProfile.userCity
-    sessionStorage['userState'] = result.data.data.updateProfile.userState
-    sessionStorage['userCountry'] = result.data.data.updateProfile.userCountry
-    sessionStorage['userPostalCode'] = result.data.data.updateProfile.userPostalCode
-    sessionStorage['userBirthDate'] = result.data.data.updateProfile.userBirthDate
-    sessionStorage['userGender'] = result.data.data.updateProfile.userGender
-
     return result;
 }
 
+export const getuserProfile=async(userEmail:string)=>{
+    const url=settings.server
+    const response=await axios({
+        url:url,
+        method:'POST',
+        data:{
+            query : print(gql`
+                query($userEmail:String!){
+                    getUserProfile(userEmail:$userEmail){
+                        id
+                        firstName
+                        lastName
+                        userCity
+                        userState
+                        userCountry
+                        userGender
+                        userPostalCode
+                        userBirthDate
+                    }
+                }
+            `),
+            variables:{
+                userEmail:userEmail
+            }
+        },
+        headers:{
+            Authorization: `Bearer ${sessionStorage['token']}`
+        }
+    })
+    return response.data.data.getUserProfile
+}

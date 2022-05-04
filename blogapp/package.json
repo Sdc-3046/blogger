@@ -23,6 +23,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@golevelup/nestjs-testing": "^0.1.2",
+    "@golevelup/ts-jest": "^0.3.3",
     "@nestjs-query/query-graphql": "^0.30.0",
     "@nestjs/apollo": "^10.0.8",
     "@nestjs/common": "^8.0.0",
@@ -38,6 +40,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "express-jwt": "^6.1.1",
+    "faker": "^6.6.6",
     "graphql": "^16.3.0",
     "lint-format": "^0.0.4",
     "moment": "^2.29.2",

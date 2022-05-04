@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BlogTemplateDto } from 'src/blogs/dto/blog.template.dto';
-import { UserEntity } from 'src/entities/user.entity';
+import { BlogTemplateDto } from '../blogs/dto/blog.template.dto';
+import { UserEntity } from '../entities/user.entity';
 import { BlogFilter } from './blog.filter';
 import { BlogRepository } from './blog.repository';
 import { BlogCommentRepository } from './blogs.comments.repository';
@@ -54,5 +54,9 @@ export class BlogService {
 
     async searchBlogs(searchText:string){
         return this.blogRepository.searchBlogs(searchText);
+    }
+
+    async addBlogRating(rating:number,id:string){
+        return this.blogRepository.addBlogRating(rating,id)
     }
 }

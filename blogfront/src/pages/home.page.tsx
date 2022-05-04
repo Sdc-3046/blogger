@@ -4,7 +4,7 @@ import { getBloglist, searchBlogs } from '../services/blog.service';
 import Dropdown from 'react-bootstrap/Dropdown'
 import Blog from '../components/blog.list.card.component';
 
-const HomePage = (props:any) => {
+const HomePage = () => {
     const [blogs, setBlogs] = useState([])
     const [searchText, setSearchText]=useState('')
     const navigate = useNavigate()
@@ -61,6 +61,7 @@ const HomePage = (props:any) => {
     }
 
     return (
+        
         <div>
             <Dropdown className='dropdown' style={{ float: 'right' }}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -77,7 +78,7 @@ const HomePage = (props:any) => {
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="webTitle">Blogger</h1>
+            <h1 className="webTitle"><a href='homepage' style={{textDecoration:'none', color:'darkcyan'}}>Blogger</a></h1>
 
             <div className='searchBox'>
                 <input onChange={(e) => {
@@ -93,11 +94,11 @@ const HomePage = (props:any) => {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={()=>{onSort(5)}}>5 Star</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>{onSort(4)}}>4 Star</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>{onSort(3)}}>3 Star</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>{onSort(2)}}>2 Star</Dropdown.Item>
-                        <Dropdown.Item onClick={()=>{onSort(1)}}>1 Star</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(5)}}>5 ⭐</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(4)}}>4 ⭐</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(3)}}>3 ⭐</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(2)}}>2 ⭐</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>{onSort(1)}}>1 ⭐</Dropdown.Item>
                         <Dropdown.Item onClick={()=>{onSort(0)}}>Get All Blogs</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
@@ -106,7 +107,7 @@ const HomePage = (props:any) => {
             <div className='blogsContainer'>
                 <div className="row">
                     {blogs.length > 0 && blogs.map((blog) => {
-                        const { id, blogTitle, blogContent, blogDate, blogTags } = blog
+                        const { id, blogTitle, blogContent, blogDate, blogTags,blogRating } = blog
                         return (
                             <Blog
                                 key={id}
@@ -115,7 +116,7 @@ const HomePage = (props:any) => {
                                 blogContent={blogContent}
                                 blogDate={blogDate}
                                 blogTags={blogTags}
-
+                                blogRating={blogRating+"⭐"}
                             />
                         )
                     })}

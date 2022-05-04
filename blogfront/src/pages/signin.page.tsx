@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { signin } from '../services/user.service'
 import React from 'react';
 
-const SigninPage = (props:any) => {
+const SigninPage = () => {
     const [userEmail, setuserEmail] = useState('')
     const [userPassword, setuserPassword] = useState('')
 
@@ -33,7 +33,7 @@ const SigninPage = (props:any) => {
         <div style={{alignContent:"center"}}>
             <div style={{alignContent:"center"}}>
                 <h1 className="header">Sign In</h1>
-                <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '100px', marginTop: '50px', background: '#d7d4d7', marginLeft:'15%'}}>
+                <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '3%', marginTop: '8%', background: '#d7d4d7', marginLeft:'15%'}}>
                     <div className="mb-3">
                         <label className="form-label" style={{ float: 'left', fontSize: '20px', marginLeft: '10px', fontWeight: 'bold' }}>Email</label>
                         <input
@@ -41,7 +41,7 @@ const SigninPage = (props:any) => {
                                 setuserEmail(e.target.value)
                             }}
                             type="text"
-                            className="form-control" placeholder='Enter Your Email'
+                            className="form-control" placeholder='Enter Your Email' 
                         />
                     </div>
 

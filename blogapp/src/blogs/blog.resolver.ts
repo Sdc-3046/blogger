@@ -1,12 +1,12 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { BlogTemplateDto } from 'src/blogs/dto/blog.template.dto';
-import { BlogEntity } from 'src/entities/blogposts.entity';
+import { BlogTemplateDto } from '../blogs/dto/blog.template.dto';
+import { BlogEntity } from '../entities/blogposts.entity';
 import { BlogService } from './blog.service';
-import { GetUser } from 'src/users/get.user.decorator';
-import { UserEntity } from 'src/entities/user.entity';
-import { GQLAuthGuard } from 'src/users/gql.authguard';
-import { BlogCommentEntity } from 'src/entities/blog.comment.entity';
+import { GetUser } from '../users/get.user.decorator';
+import { UserEntity } from '../entities/user.entity';
+import { GQLAuthGuard } from '../users/gql.authguard';
+import { BlogCommentEntity } from '../entities/blog.comment.entity';
 import { BlogFilter } from './blog.filter';
 
 @Resolver(()=>BlogEntity)
@@ -72,6 +72,11 @@ export class BlogResolver {
     @Query(()=>[BlogEntity], {nullable:true, name:'searchBlogs'})
     searchBlogs(@Args('searchText')searchText:string){
         return this.blogservice.searchBlogs(searchText);
+    }
+
+    @Mutation(()=>BlogEntity,{name:'addBlogRating'})
+    addBlogRating(@Args('rating')rating:number,@Args('id')id:string){
+        return this.blogservice.addBlogRating(rating,id);
     }
 
 }

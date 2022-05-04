@@ -1,7 +1,7 @@
 import { NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { AuthCredentialsDto } from "src/users/dto/auth.credentials.dto";
-import { ProfileDto } from "src/users/dto/profile.dto";
-import { UserEntity } from "src/entities/user.entity";
+import { AuthCredentialsDto } from "./dto/auth.credentials.dto";
+import { ProfileDto } from "./dto/profile.dto";
+import { UserEntity } from "../entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(UserEntity)

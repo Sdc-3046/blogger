@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { updateBlog } from '../services/blog.service'
+import { updateBlog, viewBlog } from '../services/blog.service'
 import Dropdown from 'react-bootstrap/Dropdown'
 import React, { Component } from 'react';
 
-const UpdateBlogPage = (props:any) => {
+const UpdateBlogPage = () => {
     const [blogTitle, setBlogTitle] = useState('')
     const [blogContent, setBlogContent] = useState('')
     const [blogTags, setBlogTag] = useState('')
     const [blogRating, setBlogRating]=useState(4)
-    
+    useEffect(() => {
+        loadBlogs()
+    }, [])
+
     const navigate = useNavigate()
 
+    const loadBlogs=async ()=>{
+        const res=await viewBlog(sessionStorage['id']);
+        if(res){
+            setBlogTitle(res.blogTitle)
+            setBlogContent(res.blogContent)
+            setBlogRating(res.blogRating)
+            setBlogTag(res.blogTags)
+        }
+    }
+
     const onupdateBlog = async () => {
+
         if (blogTitle.length === 0) {
             alert('set title')
         } else if (blogContent.length === 0) {
@@ -71,7 +85,7 @@ const UpdateBlogPage = (props:any) => {
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="webTitle">Blogger</h1>
+            <h1 className="webTitle"><a href='homepage' style={{textDecoration:'none', color:'darkcyan'}}>Blogger</a></h1>
             <div className='blogCreateContainer'>
                 <div className="form">
                     <div className="mb-3">
@@ -81,7 +95,7 @@ const UpdateBlogPage = (props:any) => {
                                 setBlogTitle(e.target.value)
                             }}
                             type="text"
-                            className="form-control"
+                            className="form-control" value={blogTitle}
                         />{' '}
                     </div>
 
@@ -92,7 +106,7 @@ const UpdateBlogPage = (props:any) => {
                                 setBlogContent(e.target.value)
                             }}
                             rows={20}
-                            className="form-control"
+                            className="form-control" value={blogContent}
                         ></textarea>
                     </div>
 
@@ -122,18 +136,6 @@ const UpdateBlogPage = (props:any) => {
 
                     </div>
 
-                <div className='ratingBtnPanel'>
-                    
-                    <div>
-                    <label className="form-label"><h4>Blog Rating</h4></label>
-                    </div>
-
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(5)}}>5 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(4)}}>4 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(3)}}>3 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(2)}}>2 Star</button>
-                    <button className='ratingBtns' onClick={()=>{setBlogRating(1)}}>1 Star</button>
-                </div>
 
                     <div className="mb-3">
                         <button onClick={onupdateBlog} className="btn btn-success">

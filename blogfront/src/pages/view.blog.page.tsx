@@ -1,27 +1,36 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import React from 'react';
-import {addComment, getcomments, viewBlog } from '../services/blog.service';
+import {addComment, getcomments, viewBlog, addBlogRating } from '../services/blog.service';
 import Dropdown from 'react-bootstrap/Dropdown';
 import BlogPage from '../components/blog.page.component';
 import Comments from '../components/comments.component';
+import { getuserProfile } from '../services/user.service';
 
-const BlogViewPage = (props:any) => {
+const BlogViewPage = () => {
     const [blog, setBlog] = useState([])
     const navigate = useNavigate()
+    const[blogTitle,setBlogTitle]=useState('')
+    const[blogContent,setBlogContent]=useState('')
+    const[blogDate, setBlogDate]=useState('')
+    const[blogTags, setBlogTag]=useState('')
+    const[blogRating, setBlogRating]=useState(4)
+    const[blogAuthor, setBlogAuthor]=useState('')  
     const [comments, setComments] = useState([])
     const [comtext, setComtext] = useState('')
 
+    useEffect(() => {
+        loadBlog()
+        
+    })
+
     const logout = () => {
 
-        sessionStorage.removeItem('token')
-        sessionStorage.removeItem('userEmail')
+        sessionStorage.clear()
         navigate('/signin')
     }
 
-    useEffect(() => {
-        loadBlog()
-    }, [])
+    
 
     const createBlog = async () => {
         navigate('/createBlog')
@@ -31,15 +40,21 @@ const BlogViewPage = (props:any) => {
         const result = await viewBlog(sessionStorage['id'])
         const response = await getcomments(sessionStorage['id'])
         if (result) {
-            sessionStorage['blogTitle'] = result.blogTitle;
-            sessionStorage['blogContent'] = result.blogContent;
-            sessionStorage['blogTags'] = result.blogTags;
-            sessionStorage['blogDate'] = result.blogDate;
-
+            setBlogTitle(result.blogTitle)
+            setBlogContent(result.blogContent)
+            setBlogTag(result.blogTags)
+            setBlogDate(result.blogDate);
+            setBlogAuthor(result.blogAuthor)
+            setBlogRating(result.blogRating)
             setBlog(result)
             setComments(response)
         }
 
+    }
+
+    const addblogRating=async (rating:number)=>{
+        const result=addBlogRating(sessionStorage['id'],rating)
+        loadBlog()
     }
 
     const myProfile = async () => {
@@ -82,22 +97,49 @@ const BlogViewPage = (props:any) => {
                 </Dropdown.Menu>
             </Dropdown>
 
-            <h1 className="webTitle">Blogger</h1>
+            <h1 className="webTitle"><a href='homepage' style={{textDecoration:'none', color:'darkcyan'}}>Blogger</a></h1>  
 
             <div className='viewBlogContainer'>
                 <div className="row">
 
                     <BlogPage
-                        blogTitle={sessionStorage.getItem('blogTitle')}
-                        blogContent={sessionStorage.getItem('blogContent')}
-                        blogTags={sessionStorage.getItem('blogTags')}
-                        blogDate={sessionStorage.getItem('blogDate')}
+                        blogTitle={blogTitle}
+                        blogContent={blogContent}
+                        blogTags={blogTags}
+                        blogDate={blogDate}
+                        Author={blogAuthor}
+                        blogRating={blogRating}
                     />
 
                 </div>
 
-                <div style={{ marginBottom: '30px' }}>
-                    <h2 style={{ marginTop: '20px', textAlign:'left' }}>Comments</h2>
+                <div className='ratingscontainer'>
+                    <h2 style={{textAlign:'left'}}>Add Ratings</h2>
+                    <button value={blogRating} onClick={(e) => {
+                        addblogRating(5)
+                    }}>5⭐</button>
+
+                    <button value={"ART"} onClick={(e) => {
+                        addblogRating(4)
+                    }}>4⭐</button>
+
+                    <button value={"SPORTS"} onClick={(e) => {
+                        addblogRating(3)
+                    }}>3⭐</button>
+
+                    <button value={"LIFESTYLE"} onClick={(e) => {
+                        addblogRating(2)
+                    }}>2⭐</button>
+
+                    <button value={"NEWS"} onClick={(e) => {
+                        addblogRating(1)
+                    }}>1⭐</button>
+
+
+                </div>
+
+                <div style={{ marginBottom: '5%' }}>
+                    <h2 style={{ marginTop: '2%', textAlign:'left' }}>Comments</h2>
                     <div className="row">
                         {comments.map((comment) => {
                             const { id, userName, userComment, blogId } = comment
@@ -116,7 +158,7 @@ const BlogViewPage = (props:any) => {
                         <input onChange={(e) => {
                             setComtext(e.target.value)
                         }} type="text" placeholder='Post a comment' className='addComtext' />
-                        <button className='btn btn-success' onClick={publishComment} style={{ float: 'right', width: '200px', height: '40px', marginBottom: '40px' }}>Post</button>
+                        <button className='btn btn-success' onClick={publishComment} style={{ float: 'right', width: '200px', height: '40px', marginBottom: '3%', marginTop:'1%' }}>Post</button>
                     </div>
                 </div>
             </div>

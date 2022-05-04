@@ -34,6 +34,9 @@ export class BlogEntity{
     @Field({nullable:true})
     blogRating: number;
     
+    @Column()
+    @Field()
+    blogAuthor:string;
 
     @Column()
     @Field()

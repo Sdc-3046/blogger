@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { signup } from '../services/user.service'
 
-const SignupPage = (props:any) => {
+const SignupPage = () => {
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -35,7 +35,7 @@ const SignupPage = (props:any) => {
         <div>
             <div style={{alignContent:"center"}}>
                 <h1 className="header">Sign Up</h1>
-                <div className="form" style={{ width: '60%', borderRadius: '40px', padding: '50px', marginTop: '50px', background: '#d7d4d7', marginLeft:'20%', marginBottom:'50px' }}>
+                <div className="form" style={{ width: '70%', borderRadius: '40px', padding: '2%', marginTop: '50px', background: '#d7d4d7', marginLeft:'15%', marginBottom:'50px' }}>
                     <div className="mb-3">
                         <label className="form-label" style={{ float: 'left', fontSize: '20px', marginLeft: '10px', fontWeight: 'bold' }}>Firstname</label>
                         <input

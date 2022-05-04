@@ -1,5 +1,5 @@
 import { Field, InputType } from "@nestjs/graphql";
-import { BlogTag } from "src/blogs/blog.tag.enum";
+import { BlogTag } from "..//blog.tag.enum";
 
 @InputType()
 export class BlogTemplateDto{

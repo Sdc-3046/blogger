@@ -37,7 +37,7 @@ export const getBloglist = async (blogRating:number) => {
     return response.data.data;
 }
 
-export const createBlog = async (blogTitle:String, blogContent:String, blogTags:String) => {
+export const createBlog = async (blogTitle:String, blogContent:String, blogTags:String, blogRating:number) => {
     const url = settings.server + '/bloggers/createblog'
     const token = sessionStorage['token']
 
@@ -47,11 +47,12 @@ export const createBlog = async (blogTitle:String, blogContent:String, blogTags:
         data: {
             query: print(gql`
             
-            mutation($blogTitle:String,$blogContent:String,$blogTags:String){
+            mutation($blogTitle:String,$blogContent:String,$blogTags:String,$blogRating:Float!){
                 newBlog(blog:{
                     blogTitle:$blogTitle
                     blogContent:$blogContent
                     blogTags:$blogTags
+                    blogRating:$blogRating
                     })
                 
                 {
@@ -69,6 +70,7 @@ export const createBlog = async (blogTitle:String, blogContent:String, blogTags:
                 blogTitle:blogTitle,
                 blogContent:blogContent,
                 blogTags:blogTags, 
+                blogRating:blogRating
             }
         },
         headers:{
@@ -95,9 +97,11 @@ export const viewBlog = async (id:string) => {
             getBlogById(id:$id)
             {
                 blogTitle
-                blogDate,
-                blogContent,
+                blogDate
+                blogContent
+                blogRating
                 blogTags
+                blogAuthor
                 userId
             }
             }
@@ -148,7 +152,7 @@ export const updateBlog = async (id:String,blogTitle:String,blogContent:String,b
                 id:id,
                 blogTitle:blogTitle,
                 blogContent:blogContent,
-                blogTags:blogTags
+                blogTags:blogTags,
             }
         },
         headers:{
@@ -182,8 +186,6 @@ export const deleteBlog= async(id:String)=>{
         }
     })
 
-    //console.log(response2)
-
     const response=await axios({
         method:'POST',
         url:url,
@@ -206,7 +208,6 @@ export const deleteBlog= async(id:String)=>{
             Authorization: `Bearer ${sessionStorage['token']}`
         }
     })
-    //console.log(response.data)
 
 }
 
@@ -327,4 +328,41 @@ export const searchBlogs=async (searchText:string)=>{
         }
     })
     return response.data.data.searchBlogs
+}
+
+export const addBlogRating = async (id:string,rating:number) => {
+    const url = settings.server
+    const token = sessionStorage['token']
+    //console.log(id + " in viewblog")
+    const response=await axios({
+        method:'POST',
+        url:url,
+        data: {
+            query: print(gql`
+            
+            mutation($rating:Float!,$id:String!){
+            addBlogRating(rating:$rating,id:$id)
+            {
+                blogTitle
+                blogDate
+                blogContent
+                blogTags
+                blogRating
+                blogAuthor
+                userId
+            }
+            }
+            `),
+            variables:{
+                id:id,
+                rating:rating
+            }
+        },
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+        
+    })
+    
+    return response.data.data.addBlogRating;
 }

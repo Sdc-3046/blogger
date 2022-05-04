@@ -170,6 +170,7 @@ body{
 .addComtext{
   width: 80%;
   height: 40px;
+  margin-top: 1%;
 }
 
 .searchBox{
@@ -210,5 +211,53 @@ body{
 }
 
 .ratingBtns:focus{
+  background-color: gold;
+}
+
+.currentprofile{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.profileInputBox{
+  width: 40%;
+  height: 40px;
+  border: 0.2px solid gray;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
+
+.leftLabel{
+  text-align: left;
+  margin-left: 9%;
+}
+
+.blogauthor{
+  text-align: right;
+  color: grey;
+}
+
+.blograting{
+  text-align: right;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-weight: bold;
+}
+
+.ratingscontainer{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ratingscontainer button{
+  width: 150px;
+  height: 40px;
+  margin: 5px;
+  border: 0px;
+  border-radius: 10px;
+}
+
+.ratingscontainer button:focus{
   background-color: gold;
 }

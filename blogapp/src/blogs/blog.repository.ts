@@ -1,7 +1,7 @@
 import { BadRequestException, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { BlogTemplateDto } from "src/blogs/dto/blog.template.dto";
-import { BlogEntity } from "src/entities/blogposts.entity";
-import { UserEntity } from "src/entities/user.entity";
+import { BlogTemplateDto } from "../blogs/dto/blog.template.dto";
+import { BlogEntity } from "../entities/blogposts.entity";
+import { UserEntity } from "../entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { BlogFilter } from "./blog.filter";
 
@@ -23,6 +23,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         blog.blogRating=blogRating;
         blog.userId=user.id;
         blog.blogTags = blogTags;
+        blog.blogAuthor=user.firstName+" "+user.lastName
         const result=await this.save(blog);
         return result;
     }
@@ -168,9 +169,26 @@ export class BlogRepository extends Repository<BlogEntity>{
         try{
 
             const query=this.createQueryBuilder('blogs');
-            query.andWhere('blogs.blogTitle LIKE :searchText',{searchText:searchText+'%'})
+            query.andWhere('blogs.blogTitle LIKE :searchText',{searchText:'%'+searchText+'%'})
             const result=query.getMany();
             return result;
+        }
+        catch{
+            throw new NotFoundException();
+        }
+    }
+
+    async addBlogRating(rating:number,id:string){
+        try{
+            const query=this.createQueryBuilder('blogs');
+            query.andWhere('blogs.id=:id',{id:id});
+            const blog=await query.getOneOrFail();
+            if(blog){
+                blog.blogRating=blog.blogRating+rating;
+                blog.blogRating=Math.ceil(blog.blogRating/2)
+                this.save(blog);
+                return blog;
+            }            
         }
         catch{
             throw new NotFoundException();
