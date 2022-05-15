@@ -1,59 +1,58 @@
-/* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity, Unique } from 'typeorm';
-import { blogpost } from './blogposts.entity';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, Unique, OneToMany } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { BlogEntity } from './blogposts.entity';
 
 @Entity('bloggers')
 @Unique(['userEmail'])
 @ObjectType()
 export class UserEntity extends BaseEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
     @Field()
-    firstName: string;
+    firstName: String;
 
     @Column()
     @Field()
-    lastName: string;
+    lastName: String;
 
     @Column()
     @Field()
-    userEmail: string;
+    userEmail: String;
 
     @Column()
-    @Field()
-    userPassword: string;
+    @Field({nullable:true})
+    userPassword: String;
 
-    @Column()
-    @Field()
-    userCity: string;
+    @Column({default:null})
+    @Field({nullable:true})
+    userCity: String;
 
-    @Column()
-    @Field()
-    userState: string;
+    @Column({default:null})
+    @Field({nullable:true})
+    userState: String;
 
-    @Column()
-    @Field()
-    userCountry: string;
+    @Column({default:null})
+    @Field({nullable:true})
+    userCountry: String;
 
-    @Column()
+    @Column({default:null})
     @MinLength(6)
     @MaxLength(6)
-    @Field()
-    userPostalCode: number;
+    @Field({nullable:true})
+    userPostalCode: String;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     userBirthDate: Date;
 
-    @Column()
-    @Field()
-    userGender: string;
+    @Column({default:null})
+    @Field({nullable:true})
+    userGender: String;
 
-    @OneToMany(type => blogpost, blog => blog.user, { eager: true, onDelete: 'SET NULL' })
-    blogs: blogpost[];
+    @OneToMany(type => BlogEntity, blog => blog.user, { eager: true, onDelete: 'SET NULL' })
+    blogs: BlogEntity[];
 }

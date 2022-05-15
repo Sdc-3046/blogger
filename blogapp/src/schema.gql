@@ -3,17 +3,17 @@
 # ------------------------------------------------------
 
 type UserEntity {
-  id: Float!
+  id: String!
   firstName: String!
   lastName: String!
   userEmail: String!
-  userPassword: String!
-  userCity: String!
-  userState: String!
-  userCountry: String!
-  userPostalCode: Float!
-  userBirthDate: DateTime!
-  userGender: String!
+  userPassword: String
+  userCity: String
+  userState: String
+  userCountry: String
+  userPostalCode: String
+  userBirthDate: DateTime
+  userGender: String
 }
 
 """
@@ -21,17 +21,80 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type blogpost {
-  id: Float!
-  blogTitle: String!
-  blogContent: String!
+type BlogEntity {
+  id: String!
+  blogTitle: String
+  blogContent: String
   blogTags: String!
   blogDate: DateTime!
-  blogRating: Float!
-  userId: Float!
+  blogRating: Float
+  blogAuthor: String!
+  userId: String!
+}
+
+type BlogCommentEntity {
+  id: String!
+  userName: String
+  userComment: String
+  blogId: String!
+}
+
+type SignInResponse {
+  token: String!
+  user: UserEntity!
 }
 
 type Query {
-  getAll: blogpost!
-  getUser: UserEntity!
+  getBlogList(filter: BlogFilter!): [BlogEntity!]!
+  getBlogById(id: String!): BlogEntity!
+  getBlogComments(id: String!): [BlogCommentEntity!]
+  getMyBlogs(id: String!): [BlogEntity!]
+  searchBlogs(searchText: String!): [BlogEntity!]
+  signIn(user: AuthCredentialsDto!): SignInResponse!
+  getUserProfile(userEmail: String!): UserEntity!
+}
+
+input BlogFilter {
+  rating: Float
+}
+
+input AuthCredentialsDto {
+  firstName: String
+  lastName: String
+  userEmail: String!
+  userPassword: String!
+}
+
+type Mutation {
+  newBlog(blog: BlogTemplateDto!): BlogEntity!
+  deleteBlog(id: String!): BlogEntity!
+  updateBlog(updatedBlog: BlogTemplateDto!): BlogEntity!
+  createOrupdateBlog(createOrupdateBlog: BlogTemplateDto!): BlogEntity
+  addBlogComment(id: String!, userComment: String!): BlogCommentEntity
+  deleteBlogComment(id: String!): String
+  addBlogRating(rating: Float!, id: String!): BlogEntity!
+  signUp(user: AuthCredentialsDto!): UserEntity!
+  updateProfile(userProfile: ProfileDto!): UserEntity!
+}
+
+input BlogTemplateDto {
+  id: String
+  blogTitle: String
+  blogContent: String
+  blogTags: String
+  blogDate: DateTime
+  blogRating: Float
+}
+
+input ProfileDto {
+  firstName: String
+  lastName: String
+  userEmail: String
+  userPassword: String
+  userCity: String
+  userState: String
+  userCountry: String
+  userPostalCode: String
+  userBirthDate: DateTime
+  userGender: String
 }

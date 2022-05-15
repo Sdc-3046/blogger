@@ -1,48 +1,51 @@
-/* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, Unique } from "typeorm";
 import { IsNotEmpty } from "class-validator";
+import { Field, ObjectType } from "@nestjs/graphql";
 import { BlogCommentEntity } from "./blog.comment.entity";
 import { UserEntity } from "./user.entity";
-//import {BlogTag} from "../blogs/blog.tags.enum"
-import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
+@Unique(['blogTitle'])
 @Entity()
-export class blogpost{
-    @PrimaryGeneratedColumn()
+export class BlogEntity{
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
     @IsNotEmpty()
-    @Field()
+    @Field({nullable:true})
     blogTitle: string;
 
     @IsNotEmpty()
     @Column()
-    @Field()
+    @Field({nullable:true})
     blogContent: string;
 
-    @Column()
+    @Column({default:null})
     @Field()
     blogTags: string;
 
-    @Column()
+    @Column({default:new Date()})
     @Field()
     blogDate: Date;
 
-    @Column()
-    @Field()
+    @Column({default:null})
+    @Field({nullable:true})
     blogRating: number;
-
-    @IsNotEmpty()
+    
     @Column()
     @Field()
-    userId: number;
+    blogAuthor:string;
 
-    @ManyToOne(type => UserEntity, user => user.blogs, { eager: false })
+    @Column()
+    @Field()
+    userId: string;
+
+    @ManyToOne(type => UserEntity, user => user.blogs)
     user: UserEntity;
 
-    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { eager: false, onDelete: 'SET NULL' })
+    @OneToMany(type => BlogCommentEntity, comment => comment.blog, { onDelete: 'SET NULL' })
     comments: BlogCommentEntity[];
+
 }

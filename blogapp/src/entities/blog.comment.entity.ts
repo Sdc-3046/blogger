@@ -1,28 +1,27 @@
-/* eslint-disable prettier/prettier */
 import { Field, ObjectType } from "@nestjs/graphql";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { blogpost } from "./blogposts.entity";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BlogEntity } from "./blogposts.entity";
 
 @ObjectType()
 @Entity('comment')
 export class BlogCommentEntity extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     @Field()
-    id: number;
+    id: string;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     userName: string;
 
     @Column()
-    @Field()
+    @Field({nullable:true})
     userComment: string;
 
     @Column()
     @Field()
-    blogId: number;
+    blogId: string;
 
-    @ManyToOne(type => blogpost, blog => blog.comments, { eager: true, onDelete: "SET NULL" })
-    blog: blogpost;
+    @ManyToOne(type => BlogEntity, blog => blog.comments, { eager: true, onDelete: "SET NULL" })
+    blog: BlogEntity;
 }
