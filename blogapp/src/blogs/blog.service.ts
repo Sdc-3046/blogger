@@ -11,7 +11,7 @@ export class BlogService {
 
     constructor(private blogRepository:BlogRepository, @InjectRepository(BlogCommentRepository) private blogCommentRepository: BlogCommentRepository) {}
 
-    async getBlogs(args:BlogFilter){
+    async getBlogList(args:BlogFilter){
         return this.blogRepository.getBlogList(args);
     }
 
@@ -27,9 +27,9 @@ export class BlogService {
         return this.blogRepository.deleteBlogById(id,user);
     }
 
-    async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
+    async updateBlog(blogTemplateDto:BlogTemplateDto,user:UserEntity)
     {
-        return this.blogRepository.updateBlogById(blogTemplateDto,user)
+        return this.blogRepository.updateBlog(blogTemplateDto,user)
     }
 
     async createOrupdateBlog(user:UserEntity,blogTemplateDto:BlogTemplateDto){

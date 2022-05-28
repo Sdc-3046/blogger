@@ -87,7 +87,7 @@ const HomePage = () => {
                 <button className='searchBtn' onClick={onSearch}>Search</button>
             </div>
 
-            <div >
+            <div>
                 <Dropdown className='sortDropdown'>
                     <Dropdown.Toggle>
                         Sort By Rating

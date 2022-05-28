@@ -90,7 +90,7 @@ export class BlogRepository extends Repository<BlogEntity>{
         }
     }
 
-    async updateBlogById(blogTemplateDto:BlogTemplateDto,user:UserEntity)
+    async updateBlog(blogTemplateDto:BlogTemplateDto,user:UserEntity)
     {
         const {id,blogTitle,blogContent,blogTags,blogDate,blogRating}=blogTemplateDto;
         
@@ -136,7 +136,7 @@ export class BlogRepository extends Repository<BlogEntity>{
             
             if(targetblog)
             {
-                return this.updateBlogById(blogTemplateDto,user);
+                return this.updateBlog(blogTemplateDto,user);
             }
         }
         catch{

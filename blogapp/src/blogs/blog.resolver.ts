@@ -24,7 +24,7 @@ export class BlogResolver {
 
     @Query(()=>[BlogEntity])
     getBlogList(@Args('filter')args:BlogFilter) {
-        return this.blogservice.getBlogs(args);
+        return this.blogservice.getBlogList(args);
     }
 
     @Query(()=>BlogEntity)
@@ -40,7 +40,7 @@ export class BlogResolver {
 
     @Mutation(()=>BlogEntity, {name:'updateBlog'})
     updateBlog(@GetUser('user')user:UserEntity,@Args('updatedBlog') blogTemplateDto:BlogTemplateDto){
-        return this.blogservice.updateBlogById(blogTemplateDto,user)
+        return this.blogservice.updateBlog(blogTemplateDto,user)
     }
 
 

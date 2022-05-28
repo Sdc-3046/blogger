@@ -11,7 +11,6 @@ describe('UserResolver', ()=>{
     const userEmail='demo@gmail.com';
     const userEntity=new UserEntity();
     const profile=new ProfileDto()
-    const fakeUser
     const user={
         id:expect.any(String),
         firstName:expect.any(String),

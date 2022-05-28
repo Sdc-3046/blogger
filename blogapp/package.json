@@ -2,10 +2,12 @@
   "name": "blogapp",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Shubham Chavan",
   "private": true,
   "license": "UNLICENSED",
   "eslint.enable": false,
+  "node": "v14.19.2",
+  "npm": "6.14.17",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -20,7 +22,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "heroku-postbuild": "npm i -g @nestjs/cli && npm i source-map-support && npm install && npm run build"
   },
   "dependencies": {
     "@golevelup/nestjs-testing": "^0.1.2",
@@ -33,12 +36,13 @@
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^8.0.3",
     "apollo-server-express": "^3.6.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "crypto-js": "^4.1.1",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.1",
     "express-jwt": "^6.1.1",
     "faker": "^6.6.6",
     "graphql": "^16.3.0",
